@@ -6,7 +6,7 @@ cp .env.example .env
 make init
 make dev
 ```
-Application will be running under [localhost:63251](localhost:63251) and [http://kula-web.localhost/](http://kula-web.localhost/) in Blumilk traefik environment. If you don't have a Blumilk traefik environment set up yet, follow the instructions from this [repository](https://github.com/blumilksoftware/environment).
+Application will be running under [localhost:43251](localhost:43251) and [http://w-punkt.localhost/](http://w-punkt.localhost/) in Blumilk traefik environment. If you don't have a Blumilk traefik environment set up yet, follow the instructions from this [repository](https://github.com/blumilksoftware/environment).
 
 #### Commands
 Before running any of the commands below, you must run shell:
@@ -31,9 +31,9 @@ make shell
 
 #### Containers
 
-| service    | container name            | default host port               |
-|:-----------|:--------------------------|:--------------------------------|
-| `app`      | `askwell-panel-app-dev`     | [63251](http://localhost:63251) |
-| `database` | `askwell-panel-db-dev`      | 63253                           |
-| `redis`    | `askwell-panel-redis-dev`   | 63252                           |
-| `mailpit`  | `askwell-panel-mailpit-dev` | 63254                           |
+| service    | container name        | default host port               |
+|:-----------|:----------------------|:--------------------------------|
+| `app`      | `w-punkt-app-dev`     | [43251](http://localhost:43251) |
+| `database` | `w-punkt-db-dev`      | 43253                           |
+| `redis`    | `w-punkt-redis-dev`   | 43252                           |
+| `mailpit`  | `w-punkt-mailpit-dev`        | 43254                           |

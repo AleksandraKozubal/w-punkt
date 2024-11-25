@@ -13,8 +13,8 @@ CURRENT_USER_ID = $(shell id --user)
 CURRENT_USER_GROUP_ID = $(shell id --group)
 CURRENT_DIR = $(shell pwd)
 
-DATABASE_USERNAME=kula-web
-TEST_DATABASE_NAME=kula-web-test
+DATABASE_USERNAME=w-punkt
+TEST_DATABASE_NAME=w-punkt-test
 
 init: check-env-file
 	@make build \

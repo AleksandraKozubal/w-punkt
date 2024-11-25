@@ -1,14 +1,14 @@
 networks:
-  kula-web-dev:
+  w-punkt-dev:
     driver: bridge
   traefik-proxy-blumilk-local:
     external: true
 
 volumes:
-  kula-web-postgres-data:
-    name:  kula-web-postgres-data
-  kula-web-redis-data:
-    name: kula-web-redis-data
+  w-punkt-postgres-data:
+    name:  w-punkt-postgres-data
+  w-punkt-redis-data:
+    name: w-punkt-redis-data
 
 services:
   app:
@@ -22,15 +22,15 @@ services:
       - "traefik.enable=true"
       - "traefik.blumilk.environment=true"
       # HTTP
-      - "traefik.http.routers.kula-web-http-router.rule=Host(`kula-web.localhost`)"
-      - "traefik.http.routers.kula-web-http-router.entrypoints=web"
+      - "traefik.http.routers.w-punkt-http-router.rule=Host(`w-punkt.localhost`)"
+      - "traefik.http.routers.w-punkt-http-router.entrypoints=web"
       # HTTP to HTTPS redirect
-      #      - "traefik.http.routers kula-web-http-router.middlewares=https-redirect@file"
+      #      - "traefik.http.routers w-punkt-http-router.middlewares=https-redirect@file"
       # HTTPS
-      - "traefik.http.routers.kula-web-https-router.rule=Host(kula-web.localhost`)"
-      - "traefik.http.routers.kula-web-https-router.entrypoints=websecure"
-      - "traefik.http.routers.kula-web-https-router.tls=true"
-    container_name: kula-web-app-dev
+      - "traefik.http.routers.w-punkt-https-router.rule=Host(w-punkt.localhost`)"
+      - "traefik.http.routers.w-punkt-https-router.entrypoints=websecure"
+      - "traefik.http.routers.w-punkt-https-router.tls=true"
+    container_name: w-punkt-app-dev
     working_dir: /application
     volumes:
       - ./environment/dev/app/nginx.conf:/etc/nginx/nginx.conf:ro
@@ -40,17 +40,19 @@ services:
       - .:/application
     ports:
       - ${DOCKER_APP_HOST_PORT:-63851}:80
+      - "5173:5173"
     networks:
-      - kula-web-dev
+      - w-punkt-dev
       - traefik-proxy-blumilk-local
     restart: unless-stopped
     depends_on:
       database:
         condition: service_healthy
+    command: nodemon --watch /application app.js
 
   database:
     image: postgres:16.3-alpine3.18@sha256:64e18e8fb3e9c9aac89ac590c5dd8306b862478404f76cd9b5f7720d012b4c47
-    container_name: kula-web-db-dev
+    container_name: w-punkt-db-dev
     environment:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
@@ -64,30 +66,30 @@ services:
     ports:
       - ${DOCKER_DATABASE_HOST_PORT:-63853}:5432
     volumes:
-      - kula-web-postgres-data:/var/lib/postgresql/data
+      - w-punkt-postgres-data:/var/lib/postgresql/data
     networks:
-      - kula-web-dev
+      - w-punkt-dev
     restart: unless-stopped
 
   mailpit:
     image: axllent/mailpit:v1.20.2@sha256:e6520318d3e6164b5f4213e9906ab01b17bf8eb01923d1d3458ea76ce2039254
-    container_name: kula-web-mailpit-dev
+    container_name: w-punkt-mailpit-dev
     labels:
       - "traefik.enable=true"
       - "traefik.blumilk.environment=true"
       # HTTP
-      - "traefik.http.routers.kula-web-mailpit-http-router.rule=Host(`kula-web-mailpit.localhost`)"
-      - "traefik.http.routers.kula-web-mailpit-http-router.entrypoints=web"
+      - "traefik.http.routers.w-punkt-mailpit-http-router.rule=Host(`w-punkt-mailpit.localhost`)"
+      - "traefik.http.routers.w-punkt-mailpit-http-router.entrypoints=web"
       # HTTP to HTTPS redirect
       #      - "traefik.http.routers.erasmus-mailpit-http-router.middlewares=https-redirect@file"
       # HTTPS
-      - "traefik.http.routers.kula-web-mailpit-https-router.rule=Host(`kula-web-mailpit.localhost`)"
-      - "traefik.http.routers.kula-web-mailpit-https-router.entrypoints=websecure"
-      - "traefik.http.routers.kula-web-mailpit-https-router.tls=true"
+      - "traefik.http.routers.w-punkt-mailpit-https-router.rule=Host(`w-punkt-mailpit.localhost`)"
+      - "traefik.http.routers.w-punkt-mailpit-https-router.entrypoints=websecure"
+      - "traefik.http.routers.w-punkt-mailpit-https-router.tls=true"
       # LOADBALANCER MAILPIT PORT
-      - "traefik.http.services.kula-web-mailpit.loadbalancer.server.port=8025"
+      - "traefik.http.services.w-punkt-mailpit.loadbalancer.server.port=8025"
     networks:
-      - kula-web-dev
+      - w-punkt-dev
       - traefik-proxy-blumilk-local
     ports:
       - ${DOCKER_MAILPIT_DASHBOARD_HOST_PORT:-63854}:8025
@@ -95,11 +97,11 @@ services:
 
   redis:
     image: redis:7.2.5-alpine3.19@sha256:8f157725f8eee31e65a8d4765f1f986d76aedc1a0503345dfb63a2b1b5a441ee
-    container_name: kula-web-redis-dev
+    container_name: w-punkt-redis-dev
     ports:
       - ${DOCKER_REDIS_HOST_PORT:-63852}:6379
     volumes:
-      - kula-web-redis-data:/data
+      - w-punkt-redis-data:/data
     networks:
-      - kula-web-dev
+      - w-punkt-dev
     restart: unless-stopped
