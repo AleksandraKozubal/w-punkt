@@ -1,7 +1,6 @@
-<script setup lang="ts">
-import AppLayout from '@/Layouts/AppLayout.vue'
+<script setup>
 </script>
 
 <template>
-  <AppLayout> Dashboard </AppLayout>
+  Dashboard działa!
 </template>
