@@ -24,7 +24,7 @@ const value = computed({
     <input
       v-model="value"
       type="text"
-      class="block w-full bg-transparent caret-green focus:outline-none focus:border-green focus:ring-1 focus:text-black py-3 px-4 text-base border border-gray text-gray rounded-md focus:ring-green read-only:bg-gray-50 read-only:cursor-default"
+      class="block w-full bg-transparent caret-orange focus:outline-none focus:ring-1 focus:text-black py-3 px-4 text-base border border-gray text-gray rounded-md read-only:bg-gray-50 read-only:cursor-default"
     >
   </div>
 </template>

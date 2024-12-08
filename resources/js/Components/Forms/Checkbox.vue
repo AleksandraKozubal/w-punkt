@@ -19,6 +19,6 @@ const value = computed({
   <input
     v-model="value"
     type="checkbox"
-    class="size-5 text-blue-600 border border-gray-300 rounded-md focus:ring-blue-500 accent-blue-600"
+    class="size-5 bg-transparent text-green border border-gray rounded-md focus:ring-gray accent-gray"
   >
 </template>

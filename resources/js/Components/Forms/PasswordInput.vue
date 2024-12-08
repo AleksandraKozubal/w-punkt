@@ -21,7 +21,7 @@ const value = computed({
     <input
       v-model.trim="value"
       type="password"
-      class="block w-full bg-transparent caret-green focus:outline-none focus:border-green focus:ring-1 focus:text-black py-3 px-4 text-base border border-gray text-green rounded-md"
+      class="block w-full bg-transparent caret-orange focus:outline-none focus:border-gray focus:ring-1 focus:text-black py-3 px-4 text-base border border-gray text-gray rounded-md"
     >
   </div>
 </template>
