@@ -40,7 +40,7 @@ services:
       - .:/application
     ports:
       - ${DOCKER_APP_HOST_PORT:-63851}:80
-      - "5173:5173"
+      - "4173:4173"
     networks:
       - w-punkt-dev
       - traefik-proxy-blumilk-local

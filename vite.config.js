@@ -11,8 +11,9 @@ export default defineConfig({
     vue(),
   ],
   server: {
+    cors: true,
     host: '0.0.0.0',
-    port: 5173,
+    port: 4173,
     watch: {
       usePolling: true,
     },
