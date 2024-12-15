@@ -1,22 +1,28 @@
-module.exports = {
-  content: [
-    './resources/**/*.blade.php',
-    './resources/**/*.js',
-    './resources/**/*.vue',
-  ],
-  theme: {
-    extend: {
-      fontFamily: {
-        'raleway': ['Raleway', 'sans-serif'],
-      },
-      colors: {
-        beige: '#F4F1DE',
-        orange: '#E07A5F',
-        gray: '#3D405B',
-        green: '#81B29A',
-        yellow: '#F2CC8F',
-      },
+import defaultTheme from 'tailwindcss/defaultTheme';
+import forms from '@tailwindcss/forms';
+
+/** @type {import('tailwindcss').Config} */
+export default {
+    content: [
+        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
+        './storage/framework/views/*.php',
+        './resources/views/**/*.blade.php',
+        './resources/js/**/*.vue',
+    ],
+
+    theme: {
+        extend: {
+            colors: {
+                beige: '#F4F1DE',
+                orange: '#E07A5F',
+                green: '#81B29A',
+                yellow: '#F2CC8F',
+            },
+            fontFamily: {
+                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+            },
+        },
     },
-  },
-  plugins: [require("@tailwindcss/forms")],
-}
+
+    plugins: [forms],
+};
