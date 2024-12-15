@@ -20,7 +20,7 @@ class PasswordResetLinkController extends Controller
     }
 
     /**
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function store(Request $request): RedirectResponse
     {
