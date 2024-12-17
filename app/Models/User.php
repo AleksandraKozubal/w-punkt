@@ -9,8 +9,10 @@ use Carbon\Carbon;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
@@ -24,6 +26,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read bool $isAdmin
+ * @property-read Collection<Serie> $series
  */
 class User extends Authenticatable implements FilamentUser
 {
@@ -59,5 +62,10 @@ class User extends Authenticatable implements FilamentUser
     public function isAdmin(): bool
     {
         return $this->role === Role::Admin;
+    }
+
+    public function series(): HasMany
+    {
+        return $this->hasMany(Serie::class);
     }
 }
