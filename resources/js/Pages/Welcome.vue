@@ -25,13 +25,15 @@ defineProps({
             <p class="mt-8 text-pretty text-lg font-medium text-gray-500 sm:max-w-md sm:text-xl/8 lg:max-w-none">
               Rejestruj każdy trening i śledź swoje postępy w strzelectwie.
               Analizuj wyniki, by udoskonalać technikę i precyzję strzałów.
-              Osiągaj nowe cele i rozwijaj się na każdym etapie drogi.</p>
+              Osiągaj nowe cele i rozwijaj się na każdym etapie drogi.
+            </p>
             <div class="mt-10 flex items-center gap-x-6">
               <div v-if="canLogin" class="p-6 text-end">
                 <Link
                   v-if="$page.props.auth.user"
                   :href="route('dashboard')"
-                  class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
+                  class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                >
                   Dashboard
                 </Link>
                 <template v-else>
@@ -72,14 +74,14 @@ defineProps({
                   src="/photos/targets.avif"
                   alt="" class="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                 >
-                <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10"/>
+                <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
               </div>
               <div class="relative">
                 <img
                   src="/photos/target.avif"
                   alt="" class="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                 >
-                <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10"/>
+                <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
               </div>
             </div>
             <div class="w-44 flex-none space-y-8 pt-32 sm:pt-0">
@@ -88,14 +90,14 @@ defineProps({
                   src="/photos/pneumatic-riffle.avif"
                   alt="" class="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                 >
-                <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10"/>
+                <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
               </div>
               <div class="relative">
                 <img
                   src="/photos/gun-pointing.avif"
                   alt="" class="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                 >
-                <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10"/>
+                <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
               </div>
             </div>
           </div>

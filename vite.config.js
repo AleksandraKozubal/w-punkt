@@ -1,28 +1,28 @@
-import { defineConfig } from 'vite';
-import laravel from 'laravel-vite-plugin';
-import vue from '@vitejs/plugin-vue';
+import { defineConfig } from 'vite'
+import laravel from 'laravel-vite-plugin'
+import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
-    server: {
-        cors: true,
-        host: '0.0.0.0',
-        port: 4173,
-        watch: {
-            usePolling: true,
-        },
+  server: {
+    cors: true,
+    host: '0.0.0.0',
+    port: 4173,
+    watch: {
+      usePolling: true,
     },
-    plugins: [
-        laravel({
-            input: 'resources/js/app.js',
-            refresh: true,
-        }),
-        vue({
-            template: {
-                transformAssetUrls: {
-                    base: null,
-                    includeAbsolute: false,
-                },
-            },
-        }),
-    ],
-});
+  },
+  plugins: [
+    laravel({
+      input: 'resources/js/app.js',
+      refresh: true,
+    }),
+    vue({
+      template: {
+        transformAssetUrls: {
+          base: null,
+          includeAbsolute: false,
+        },
+      },
+    }),
+  ],
+})
