@@ -17,6 +17,12 @@ class DatabaseSeeder extends Seeder
 
         $this->call(UsersSeeder::class);
         Serie::factory()->count(10)->create();
-        Target::factory()->count(100)->create();
+
+        Target::factory()->count(100)->create()->each(function ($target) {
+            $target->update([
+                'serie_id' => Serie::all()->random()->id,
+            ]);
+        });
+
     }
 }

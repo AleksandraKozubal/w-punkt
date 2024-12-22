@@ -17,10 +17,10 @@ class TargetResource extends JsonResource
 
         return [
             "id" => $resource->id,
-            "serie_id" => $resource->serie_id,
-            "points_earned" => $resource->points_earned,
-            "points_max" => $resource->points_max,
-            "center_hits" => $resource->center_hits,
+            "serieId" => $resource->serie_id,
+            "pointsEarned" => $resource->points_earned,
+            "pointsMax" => $resource->points_max,
+            "centerHits" => $resource->center_hits,
             "image" => $resource->image,
         ];
     }

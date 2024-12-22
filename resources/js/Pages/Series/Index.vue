@@ -3,6 +3,13 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import { Head } from '@inertiajs/vue3'
 import { ChatBubbleLeftIcon, CheckCircleIcon } from '@heroicons/vue/24/outline'
 
+const props = defineProps({
+  series: {
+    type: Object,
+    required: true,
+  },
+})
+
 const discussions = [
   {
     id: 1,
@@ -186,44 +193,49 @@ const discussions = [
     <div class="py-12">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
         <ul role="list" class="divide-y divide-gray-100">
-          <li v-for="discussion in discussions" :key="discussion.id"
+          <li v-for="serie in series.data" :key="serie.id"
               class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap"
           >
             <div>
               <p class="text-sm/6 font-semibold text-gray-900">
-                <a :href="discussion.href" class="hover:underline">{{ discussion.title }}</a>
+                <a :href="serie.title" class="hover:underline">{{ serie.title }}</a>
               </p>
               <div class="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
                 <p>
-                  <a :href="discussion.author.href" class="hover:underline">{{ discussion.author.name }}</a>
+                  <a :href="serie.dateTime" class="hover:underline">{{ serie.dateTime }}</a>
                 </p>
                 <svg viewBox="0 0 2 2" class="size-0.5 fill-current">
                   <circle cx="1" cy="1" r="1"/>
                 </svg>
                 <p>
-                  <time :datetime="discussion.dateTime">{{ discussion.date }}</time>
+                 {{ serie.type }}
                 </p>
               </div>
             </div>
             <dl class="flex w-full flex-none justify-between gap-x-8 sm:w-auto">
               <div class="flex -space-x-0.5">
-                <dt class="sr-only">Commenters</dt>
-                <dd v-for="commenter in discussion.commenters" :key="commenter.id">
-                  <img class="size-6 rounded-full bg-gray-50 ring-2 ring-white" :src="commenter.imageUrl"
-                       :alt="commenter.name"
-                  />
+                <dt class="sr-only">Wyniki tarcz</dt>
+                <dd v-for="target in serie.targets" :key="target.id">
+                  <span
+                      class="size-7 bg-orange rounded-full ring-2 ring-white text-white text-xs/5 text-center flex items-center justify-center"
+                      :class="{
+                    'p-2': target.pointsEarned >= 10 && target.pointsEarned < 100,
+                    'px-1 py-2': target.pointsEarned === 100,
+                    }">
+                    {{ target.pointsEarned }}
+                  </span>
                 </dd>
               </div>
-              <div class="flex w-16 gap-x-2.5">
-                <dt>
-                  <span class="sr-only">Total comments</span>
-                  <CheckCircleIcon v-if="discussion.status === 'resolved'" class="size-6 text-gray-400"
-                                   aria-hidden="true"
-                  />
-                  <ChatBubbleLeftIcon v-else class="size-6 text-gray-400" aria-hidden="true"/>
-                </dt>
-                <dd class="text-sm/6 text-gray-900">{{ discussion.totalComments }}</dd>
-              </div>
+<!--              <div class="flex w-16 gap-x-2.5">-->
+<!--                <dt>-->
+<!--                  <span class="sr-only">Total comments</span>-->
+<!--                  <CheckCircleIcon v-if="discussion.status === 'resolved'" class="size-6 text-gray-400"-->
+<!--                                   aria-hidden="true"-->
+<!--                  />-->
+<!--                  <ChatBubbleLeftIcon v-else class="size-6 text-gray-400" aria-hidden="true"/>-->
+<!--                </dt>-->
+<!--                <dd class="text-sm/6 text-gray-900">{{ discussion.totalComments }}</dd>-->
+<!--              </div>-->
             </dl>
           </li>
         </ul>

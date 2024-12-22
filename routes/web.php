@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RecordsController;
+use App\Http\Controllers\SeriesController;
 use App\Http\Controllers\StatsController;
 use App\Http\Controllers\TipsController;
 use Illuminate\Support\Facades\Route;
@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 Route::get("/dashboard", DashboardController::class)->name("dashboard");
-Route::get("/records", RecordsController::class)->name("records");
+Route::get("/series", [SeriesController::class, 'index'])->name("series.index");
 Route::get("/stats", StatsController::class)->name("stats");
 Route::get("/tips", TipsController::class)->name("tips");
 
