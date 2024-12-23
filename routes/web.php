@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 Route::get("/dashboard", DashboardController::class)->name("dashboard");
-Route::get("/series", [SeriesController::class, 'index'])->name("series.index");
+Route::resource("series", SeriesController::class)->only(["index", "show"]);
 Route::get("/stats", StatsController::class)->name("stats");
 Route::get("/tips", TipsController::class)->name("tips");
 

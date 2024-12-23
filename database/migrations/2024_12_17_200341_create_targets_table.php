@@ -10,7 +10,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('targets', function (Blueprint $table) {
-            $table->id();
+            $table->id()->unique();
             $table->foreignIdFor(Serie::class)->constrained()->cascadeOnDelete();
             $table->integer('points_earned');
             $table->integer('points_max');
