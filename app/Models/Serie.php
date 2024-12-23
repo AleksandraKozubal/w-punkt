@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\SerieType;
 use App\Enums\WeaponType;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 
 /**
- * @poperty int $id
+ * @poperty string $id
  * @property string $title
  * @property User $user_id
  * @property ?Carbon $dateTime
@@ -29,6 +30,10 @@ use Illuminate\Support\Collection;
 class Serie extends Model
 {
     use HasFactory;
+    use HasUuids;
+
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     protected $fillable = [
         "title",

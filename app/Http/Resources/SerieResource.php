@@ -7,6 +7,7 @@ namespace App\Http\Resources;
 use App\Models\Serie;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Carbon;
 
 class SerieResource extends JsonResource
 {
@@ -19,7 +20,7 @@ class SerieResource extends JsonResource
             "id" => $resource->id,
             "title" => $resource->title,
             "type" => $resource->type,
-            "dateTime" => $resource->dateTime,
+            "dateTime" => Carbon::parse($resource->dateTime)->format('d.m.y H:i'),
             "place" => $resource->place,
             "weapon" => $resource->weapon,
             "coverImage" => $resource->coverImage,

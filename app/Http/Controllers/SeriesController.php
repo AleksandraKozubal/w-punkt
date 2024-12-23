@@ -24,6 +24,8 @@ class SeriesController extends Controller
 
     public function show(Serie $serie): Response
     {
+//        dd($serie);
+
         return inertia("Series/Show")
             ->with("serie", new SerieResource($serie));
     }
