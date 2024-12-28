@@ -1,13 +1,13 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
-import {Head, Link, useForm} from '@inertiajs/vue3'
-import InputLabel from "@/Components/Forms/InputLabel.vue";
-import TextInput from "@/Components/Forms/TextInput.vue";
-import InputError from "@/Components/Forms/InputError.vue";
-import PrimaryButton from "@/Components/Forms/PrimaryButton.vue";
-import TextArea from "@/Components/Forms/TextArea.vue";
-import SecondaryButton from "@/Components/Forms/SecondaryButton.vue";
-import Select from "@/Components/Forms/Select.vue";
+import { Head, Link, useForm } from '@inertiajs/vue3'
+import InputLabel from '@/Components/Forms/InputLabel.vue'
+import TextInput from '@/Components/Forms/TextInput.vue'
+import InputError from '@/Components/Forms/InputError.vue'
+import PrimaryButton from '@/Components/Forms/PrimaryButton.vue'
+import TextArea from '@/Components/Forms/TextArea.vue'
+import SecondaryButton from '@/Components/Forms/SecondaryButton.vue'
+import Select from '@/Components/Forms/Select.vue'
 
 const props = defineProps({
   allWeaponsTypes: {
@@ -38,12 +38,7 @@ const submitForm = () => {
   console.log(form)
   form.post(route('series.store'), {
     onSuccess: () => {
-      // useToastHelper().success(t('activity.alerts.success.create'))
       form.clearErrors()
-    },
-    onError: () => {
-      console.log(form.errors)
-      // form.errors.exceptionMessage ? useToastHelper().error(form.errors.exceptionMessage) : null
     },
   })
 }
@@ -51,7 +46,7 @@ const submitForm = () => {
 </script>
 
 <template>
-  <Head title="Nowa seria"/>
+  <Head title="Nowa seria" />
 
   <AuthenticatedLayout>
     <template #header>
@@ -62,96 +57,95 @@ const submitForm = () => {
         <form class="mt-6 space-y-6" @submit.prevent="submitForm">
           <div class="flex flex-col sm:flex-row justify-between gap-6">
             <div class="flex-1">
-              <InputLabel for="title" value="Tytuł*"/>
+              <InputLabel for="title" value="Tytuł*" />
 
               <TextInput
-                  id="title"
-                  v-model="form.title"
-                  type="text"
-                  class="mt-1 block w-full"
-                  autofocus
+                id="title"
+                v-model="form.title"
+                type="text"
+                class="mt-1 block w-full"
+                autofocus
               />
 
-              <InputError class="mt-2" :message="form.errors.title"/>
+              <InputError class="mt-2" :message="form.errors.title" />
             </div>
 
             <div class="flex-1">
-              <InputLabel for="type" value="Typ*"/>
+              <InputLabel for="type" value="Typ*" />
 
               <Select
-                  v-model="form.type"
-                  :options="allSeriesTypes"
-                  class="mt-1 block w-full"
+                v-model="form.type"
+                :options="allSeriesTypes"
+                class="mt-1 block w-full"
               />
 
-              <InputError class="mt-2" :message="form.errors.type"/>
+              <InputError class="mt-2" :message="form.errors.type" />
             </div>
 
             <div class="flex-1">
-              <InputLabel for="weapon" value="Broń*"/>
+              <InputLabel for="weapon" value="Broń*" />
 
               <Select
-                  v-model="form.weapon"
-                  :options="allWeaponsTypes"
-                  class="mt-1 block w-full"
+                v-model="form.weapon"
+                :options="allWeaponsTypes"
+                class="mt-1 block w-full"
               />
 
-              <InputError class="mt-2" :message="form.errors.weapon"/>
+              <InputError class="mt-2" :message="form.errors.weapon" />
             </div>
           </div>
 
           <div class="flex flex-col sm:flex-row justify-between gap-6">
-
             <div class="flex-1">
-              <InputLabel for="dateTime" value="Data i godzina"/>
+              <InputLabel for="dateTime" value="Data i godzina" />
 
               <TextInput
-                  id="dateTime"
-                  v-model="form.dateTime"
-                  type="datetime-local"
-                  class="mt-1 block w-full"
+                id="dateTime"
+                v-model="form.dateTime"
+                type="datetime-local"
+                class="mt-1 block w-full"
               />
 
-              <InputError class="mt-2" :message="form.errors.dateTime"/>
+              <InputError class="mt-2" :message="form.errors.dateTime" />
             </div>
 
             <div class="flex-1">
-              <InputLabel for="place" value="Miejsce"/>
+              <InputLabel for="place" value="Miejsce" />
 
               <TextInput
-                  id="place"
-                  v-model="form.place"
-                  type="text"
-                  class="mt-1 block w-full"
-              />
-
-              <InputError class="mt-2" :message="form.errors.place"/>
-            </div>
-          </div>
-
-          <div>
-            <InputLabel for="coverImage" value="Zdjęcie"/>
-
-            <TextInput
-                id="coverImage"
-                v-model="form.coverImage"
+                id="place"
+                v-model="form.place"
                 type="text"
                 class="mt-1 block w-full"
-            />
+              />
 
-            <InputError class="mt-2" :message="form.errors.coverImage"/>
+              <InputError class="mt-2" :message="form.errors.place" />
+            </div>
           </div>
 
           <div>
-            <InputLabel for="coverImage" value="Notatki"/>
+            <InputLabel for="coverImage" value="Zdjęcie" />
 
-            <TextArea
-                id="note"
-                v-model="form.note"
-                class="mt-1 block w-full"
+            <TextInput
+              id="coverImage"
+              v-model="form.coverImage"
+              type="text"
+              class="mt-1 block w-full"
             />
 
-            <InputError class="mt-2" :message="form.errors.note"/>
+            <InputError class="mt-2" :message="form.errors.coverImage" />
+          </div>
+
+          <div>
+            <InputLabel for="coverImage" value="Notatki" />
+
+            <TextArea
+              id="note"
+              v-model="form.note"
+              class="mt-1 block w-full"
+            />
+
+            <InputError class="mt-2" :message="form.errors.note" />
           </div>
 
           add targets

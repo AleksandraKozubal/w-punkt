@@ -25,9 +25,9 @@ const value = computed({
 <template>
   <div>
     <textarea
-        v-model="value"
-        rows="3"
-        class="border-gray-300 focus:border-green focus:ring-green rounded-md shadow-sm block w-full bg-white text-black caret-orange focus:outline-none focus:ring-1 py-2 px-3 text-base border"
+      v-model="value"
+      rows="3"
+      class="border-gray-300 focus:border-green focus:ring-green rounded-md shadow-sm block w-full bg-white text-black caret-orange focus:outline-none focus:ring-1 py-2 px-3 text-base border"
     />
   </div>
 </template>
