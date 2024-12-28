@@ -15,8 +15,12 @@ class SerieResource extends JsonResource
     {
         /** @var Serie $resource */
         $resource = $this->resource;
+        $seriesCount = Serie::query()
+            ->where("dateTime", "<", $resource->dateTime)
+            ->count();
 
         return [
+            "seriesCount" => ++$seriesCount,
             "id" => $resource->id,
             "title" => $resource->title,
             "type" => $resource->type,

@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
-import { Head } from '@inertiajs/vue3'
+import { Head, Link } from '@inertiajs/vue3'
 import Pagination from '@/Components/Pagination.vue'
 import { IconTrophy, IconViewfinder, IconCirclePlusFilled } from '@tabler/icons-vue'
 import PrimaryButton from '@/Components/Forms/PrimaryButton.vue'
@@ -25,9 +25,11 @@ const { series } = props
 
     <div class="py-6 max-w-7xl mx-auto">
       <div class="flex justify-end">
+        <Link :href="route('series.create')">
         <PrimaryButton class="!p-0 !bg-transparent hover:bg-green !rounded-full mb-4 mr-6">
           <IconCirclePlusFilled class="size-12 text-green aspect-square" />
         </PrimaryButton>
+        </Link>
       </div>
       <div class="px-6 lg:px-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
         <ul role="list" class="divide-y divide-gray-100">
@@ -41,9 +43,10 @@ const { series } = props
               </div>
               <div>
                 <p class="text-sm/6 font-semibold text-gray-900">
-                  <a :href="route('series.show', serie.id)"
-                     class="hover:underline"
-                  >{{ serie.title }}</a>
+                  <Link :href="route('series.show', serie.id)"
+                     class="hover:underline">
+                    {{ serie.title }}
+                  </Link>
                 </p>
                 <div class="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
                   <p>

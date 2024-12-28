@@ -8,6 +8,7 @@ use App\Http\Resources\SerieResource;
 use App\Http\Resources\SerieSummaryResource;
 use App\Models\Serie;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Response;
 
 class SeriesController extends Controller
@@ -35,7 +36,7 @@ class SeriesController extends Controller
         return inertia("Series/Create");
     }
 
-    public function store(): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
         $serie = Serie::create(request()->validate([
             "title" => ["required", "string"],

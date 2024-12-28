@@ -17,8 +17,8 @@ Route::get('/', function () {
 
 Route::get("/dashboard", DashboardController::class)->name("dashboard");
 Route::get("/series", [SeriesController::class, 'index'])->name("series.index");
-Route::get("/series/{serie}", [SeriesController::class, 'show'])->name("series.show");
 Route::get("/series/create", [SeriesController::class, 'create'])->name("series.create");
+Route::get("/series/{serie}", [SeriesController::class, 'show'])->name("series.show");
 Route::post("/series", [SeriesController::class, 'store'])->name("series.store");
 Route::get("/series/{serie}/edit", [SeriesController::class, 'edit'])->name("series.edit");
 Route::patch("/series/{serie}", [SeriesController::class, 'update'])->name("series.update");
