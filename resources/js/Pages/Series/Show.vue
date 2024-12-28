@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import {Head} from '@inertiajs/vue3'
-import {IconDotsVertical, IconTrophy, IconViewfinder} from '@tabler/icons-vue'
+import {IconDotsVertical, IconTrophy, IconViewfinder, IconMapPin, IconCalendarTime, IconClipboard} from '@tabler/icons-vue'
 import DropdownLink from '@/Components/DropdownLink.vue'
 import Dropdown from '@/Components/Dropdown.vue'
 
@@ -54,20 +54,22 @@ const props = defineProps({
             <IconTrophy v-else class="size-20 text-yellow"/>
           </div>
           <div class="flex flex-col gap-2">
-            <div>
-              {{ serie.data.type }} | {{ serie.data.dateTime }}
+            <div class="text-sm">
+              {{ serie.data.type }} | {{ serie.data.weapon }}
             </div>
-            <div class="font-bold text-xl">
+            <div class="font-bold text-2xl capitalize">
               {{ serie.data.title }}
             </div>
-            Notatka:
-            <div>
-              {{ serie.data.note }}
+            <div class="flex flex-col gap-2">
+              <div class="flex gap-1"><IconMapPin class="size-5 text-gray-500"/>{{ serie.data.place }}</div>
+              <div class="flex gap-1"><IconCalendarTime class="size-5 text-gray-500"/>{{ serie.data.dateTime }}</div>
+              <div class="flex gap-1"><IconClipboard class="size-5 text-gray-500"/>{{ serie.data.note }}</div>
             </div>
           </div>
         </div>
       </div>
-      <div class="py-10 bg-white overflow-hidden shadow-sm sm:rounded-2xl">
+      <div v-if="!!serie.data.targets" class="py-10 bg-white overflow-hidden shadow-sm sm:rounded-2xl">
+        {{ serie.data.targets }}
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
           <div
               class="mx-auto grid max-w-2xl grid-cols-1 sm:grid-cols-2 gap-8 overflow-hidden lg:mx-0 lg:max-w-none lg:grid-cols-4"

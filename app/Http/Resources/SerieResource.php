@@ -29,7 +29,9 @@ class SerieResource extends JsonResource
             "weapon" => $resource->weapon,
             "coverImage" => $resource->coverImage,
             "note" => $resource->note,
-            "targets" => TargetResource::collection($resource->targets),
+            "targets" => $resource->targets->isNotEmpty()
+                ? TargetResource::collection($resource->targets)
+                : null,
         ];
     }
 }

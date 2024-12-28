@@ -6,6 +6,7 @@ namespace App\Enums;
 
 enum WeaponType: string
 {
-    case RIFLE = "karabin";
-    case PISTOL = "pistolet";
+    case Rifle = "karabin";
+    case Pistol = "pistolet";
+    case Other = "inne";
 }

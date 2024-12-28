@@ -18,7 +18,7 @@ use Illuminate\Support\Collection;
  * @poperty string $id
  * @property string $title
  * @property User $user_id
- * @property ?Carbon $dateTime
+ * @property Carbon $dateTime
  * @property SerieType $type
  * @property ?string $place
  * @property WeaponType $weapon

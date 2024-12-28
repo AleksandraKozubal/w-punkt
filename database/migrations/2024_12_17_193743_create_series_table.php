@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('title');
             $table->foreignIdFor(User::class)->constrained();
-            $table->dateTime('dateTime')->nullable();
+            $table->dateTime('dateTime');
             $table->string('place')->nullable();
             $table->string('coverImage')->nullable();
             $table->text('note')->nullable();

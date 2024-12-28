@@ -6,6 +6,6 @@ namespace App\Enums;
 
 enum SerieType: string
 {
-    case TRAINING = "trening";
-    case COMPETITION = "zawody";
+    case Training = "trening";
+    case Competition = "zawody";
 }

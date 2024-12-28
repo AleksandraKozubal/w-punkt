@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateSerieAction;
+use App\Enums\SerieType;
+use App\Enums\WeaponType;
+use App\Http\Requests\SerieRequest;
 use App\Http\Resources\SerieResource;
 use App\Http\Resources\SerieSummaryResource;
 use App\Models\Serie;
@@ -33,20 +37,20 @@ class SeriesController extends Controller
 
     public function create(): Response
     {
-        return inertia("Series/Create");
+        $allWeaponsTypes = array_column(WeaponType::cases(), "value");
+        $allSeriesTypes = array_column(SerieType::cases(), "value");
+
+        $seriesCount = Serie::query()->where("user_id", auth()->id())->count();
+
+        return inertia("Series/Create")
+            ->with("allWeaponsTypes", $allWeaponsTypes)
+            ->with("allSeriesTypes", $allSeriesTypes)
+            ->with("seriesCount", $seriesCount);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(SerieRequest $request, CreateSerieAction $createSerieAction): RedirectResponse
     {
-        $serie = Serie::create(request()->validate([
-            "title" => ["required", "string"],
-            "dateTime" => ["required", "date"],
-            "place" => ["required", "string"],
-            "coverImage" => ["nullable", "image"],
-            "note" => ["nullable", "string"],
-            "type" => ["required", "string"],
-            "weapon" => ["required", "string"],
-        ]));
+        $serie = $createSerieAction->execute($request->serieData());
 
         return redirect()->route("series.show", $serie);
     }
