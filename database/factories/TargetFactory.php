@@ -26,7 +26,7 @@ class TargetFactory extends Factory
             "points_earned" => fake()->numberBetween(0, 100),
             "points_max" => 100,
             "center_hits" => fake()->numberBetween(0, 10),
-            "image" => fake()->imageUrl(),
+            "image" => '/storage/factory/target.jpeg',
         ];
     }
 }

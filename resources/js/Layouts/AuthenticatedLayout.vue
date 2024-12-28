@@ -119,7 +119,16 @@ const showingNavigationDropdown = ref(false)
         >
           <div class="pt-2 pb-3 space-y-1">
             <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-              Dashboard
+              Strona główna
+            </ResponsiveNavLink>
+            <ResponsiveNavLink :href="route('series.index')" :active="route().current('series.index')">
+              Serie
+            </ResponsiveNavLink>
+            <ResponsiveNavLink :href="route('stats')" :active="route().current('stats')">
+              Statystyki
+            </ResponsiveNavLink>
+            <ResponsiveNavLink :href="route('tips')" :active="route().current('tips')">
+              Porady
             </ResponsiveNavLink>
           </div>
 
@@ -132,10 +141,8 @@ const showingNavigationDropdown = ref(false)
             </div>
 
             <div class="mt-3 space-y-1">
-              <ResponsiveNavLink :href="route('profile.edit')"> Profil </ResponsiveNavLink>
-              <ResponsiveNavLink :href="route('logout')" method="post" as="button">
-                Wyloguj
-              </ResponsiveNavLink>
+              <ResponsiveNavLink :href="route('profile.edit')">Profil</ResponsiveNavLink>
+              <ResponsiveNavLink :href="route('logout')" method="post" as="button">Wyloguj</ResponsiveNavLink>
             </div>
           </div>
         </div>

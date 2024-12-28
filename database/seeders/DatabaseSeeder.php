@@ -6,9 +6,11 @@ use App\Models\Serie;
 use App\Models\Target;
 use Database\Seeders\UsersSeeder;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Collection;
 
 class DatabaseSeeder extends Seeder
 {
+   protected Collection $serie;
     public function run(): void
     {
         if (config("app.env") !== "local") {
@@ -16,13 +18,11 @@ class DatabaseSeeder extends Seeder
         }
 
         $this->call(UsersSeeder::class);
-        Serie::factory()->count(10)->create();
-
-        Target::factory()->count(100)->create()->each(function ($target) {
-            $target->update([
-                'serie_id' => Serie::all()->random()->id,
+        $this->serie = Serie::factory()->count(15)->create();
+        foreach ($this->serie as $serie) {
+            Target::factory()->count(rand(1,6))->create([
+                'serie_id' => $serie->id,
             ]);
-        });
-
+        }
     }
 }
