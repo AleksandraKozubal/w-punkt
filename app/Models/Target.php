@@ -16,6 +16,7 @@ use Illuminate\Support\Collection;
 /**
  * @poperty int $id
  * @property Serie $serie_id
+ * @property array $points
  * @property int $points_earned
  * @property int $points_max
  * @property ?int $center_hits
@@ -28,6 +29,7 @@ class Target extends Model
 
     protected $fillable = [
         "serie_id",
+        "points",
         "points_earned",
         "points_max",
         "center_hits",
@@ -37,6 +39,7 @@ class Target extends Model
         "points_earned" => "int",
         "points_max" => "int",
         "center_hits" => "int",
+        "points" => "array",
     ];
 
     public function serie(): BelongsTo

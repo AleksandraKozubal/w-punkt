@@ -12,6 +12,7 @@ return new class extends Migration
         Schema::create('targets', function (Blueprint $table) {
             $table->id()->unique();
             $table->foreignIdFor(Serie::class)->constrained()->cascadeOnDelete();
+            $table->json('points');
             $table->integer('points_earned');
             $table->integer('points_max');
             $table->integer('center_hits')->nullable();

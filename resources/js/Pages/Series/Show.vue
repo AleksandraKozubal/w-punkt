@@ -61,15 +61,18 @@ const props = defineProps({
               {{ serie.data.title }}
             </div>
             <div class="flex flex-col gap-2">
-              <div class="flex gap-1"><IconMapPin class="size-5 text-gray-500" />{{ serie.data.place }}</div>
-              <div class="flex gap-1"><IconCalendarTime class="size-5 text-gray-500" />{{ serie.data.dateTime }}</div>
-              <div class="flex gap-1"><IconClipboard class="size-5 text-gray-500" />{{ serie.data.note }}</div>
+              <div v-if="serie.data.place" class="flex gap-1"><IconMapPin class="size-5 text-gray-500" />{{ serie.data.place }}</div>
+              <div v-if="serie.data.dateTime" class="flex gap-1"><IconCalendarTime class="size-5 text-gray-500" />{{ serie.data.dateTime }}</div>
+              <div v-if="serie.data.note" class="flex gap-1">
+                <IconClipboard class="text-gray-500" style="width: 25px; height: 20px;" />
+                {{ serie.data.note }}
+              </div>
+
             </div>
           </div>
         </div>
       </div>
       <div v-if="!!serie.data.targets" class="py-10 bg-white overflow-hidden shadow-sm sm:rounded-2xl">
-        {{ serie.data.targets }}
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
           <div
             class="mx-auto grid max-w-2xl grid-cols-1 sm:grid-cols-2 gap-8 overflow-hidden lg:mx-0 lg:max-w-none lg:grid-cols-4"

@@ -7,6 +7,7 @@ namespace App\DTOs;
 use App\Enums\SerieType;
 use App\Enums\WeaponType;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
 
 class SerieData implements Arrayable
@@ -17,7 +18,7 @@ class SerieData implements Arrayable
         public ?string $place,
         public SerieType $type,
         public WeaponType $weapon,
-        public ?string $coverImage,
+        public ?UploadedFile $coverImage,
         public ?string $note,
         public int $user_id,
     ) {}
