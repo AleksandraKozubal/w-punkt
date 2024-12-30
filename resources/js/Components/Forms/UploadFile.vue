@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { IconTrash } from '@tabler/icons-vue'
+import { IconTrash, IconPhotoUp } from '@tabler/icons-vue'
 
 const model = defineModel({
   type: File,
@@ -39,11 +39,11 @@ const clearFile = () => {
 </script>
 
 <template>
-  <div class="flex flex-col space-y-4">
+  <div class="flex flex-col">
     <input
         ref="input"
         type="file"
-        accept="image/*"
+        accept="image/jpeg,image/png,image/webp"
         @change="handleFileChange"
         class="hidden"
     />
@@ -51,9 +51,11 @@ const clearFile = () => {
     <button
         type="button"
         @click="triggerFileDialog"
-        class="border-gray-300 border bg-white max-w-full sm:max-w-96 text-black py-2 sm:h-20 px-4 rounded-md shadow-md hover:text-white hover:bg-green focus:ring focus:ring-green"
+        class="border-gray-300 border flex flex-col justify-center items-center bg-white max-w-full text-gray-600 py-4 sm:min-h-[90px] px-4 rounded-md shadow-sm hover:text-white hover:bg-green focus:ring focus:ring-green"
     >
+      <IconPhotoUp class="size-4 " />
       Wybierz zdjęcie
+      <span class="text-xs">Dopuszczalne formaty: JPG, PNG, WEBP</span>
     </button>
 
     <div v-if="model" class="flex items-center justify-self-start text-sm text-gray-500 mt-2">

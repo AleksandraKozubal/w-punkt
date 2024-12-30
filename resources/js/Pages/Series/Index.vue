@@ -2,7 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import { Head, Link } from '@inertiajs/vue3'
 import Pagination from '@/Components/Pagination.vue'
-import { IconTrophy, IconViewfinder, IconCirclePlusFilled } from '@tabler/icons-vue'
+import { IconTrophy, IconViewfinder, IconCirclePlusFilled, IconTargetOff } from '@tabler/icons-vue'
 import PrimaryButton from '@/Components/Forms/PrimaryButton.vue'
 
 const props = defineProps({
@@ -32,7 +32,7 @@ const { series } = props
         </Link>
       </div>
       <div class="px-6 lg:px-8 bg-white overflow-hidden shadow-sm sm:rounded-lg">
-        <ul role="list" class="divide-y divide-gray-100">
+        <ul v-if="series.data.length !== 0" role="list" class="divide-y divide-gray-100">
           <li v-for="serie in series.data" :key="serie.id"
               class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap"
           >
@@ -80,6 +80,13 @@ const { series } = props
             </dl>
           </li>
         </ul>
+        <div v-else>
+            <div class="text-center py-4">
+              <IconTargetOff class="size-16 text-orange mx-auto" />
+              <h3 class="mt-2 text-sm font-semibold text-gray-900">Brak rekordów</h3>
+              <p class="mt-1 text-sm text-gray-500">Dodaj pierwszą serię, aby zacząć śledzić swoje postępy.</p>
+            </div>
+        </div>
       </div>
       <div class="max-w-7xl mx-auto py-4">
         <Pagination :current-page="series.meta.current_page" :last-page="series.meta.last_page" />

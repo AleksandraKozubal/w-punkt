@@ -20,7 +20,7 @@ class SeriesController extends Controller
     public function index(): Response
     {
         $series = Serie::query()
-            ->with("user")
+            ->where("user_id", auth()->id())
             ->orderByDesc("dateTime")
             ->paginate(10);
 
