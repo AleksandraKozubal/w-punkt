@@ -11,7 +11,13 @@ import Select from '@/Components/Forms/Select.vue'
 import UploadFile from "@/Components/Forms/UploadFile.vue";
 import {ref, watch} from "vue";
 import Modal from "@/Components/Modal.vue";
-import {IconPlus, IconTrash, IconPencil} from "@tabler/icons-vue";
+import {IconPencil, IconPlus, IconTrash} from "@tabler/icons-vue";
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
+
 
 const props = defineProps({
   allWeaponsTypes: {
@@ -29,8 +35,8 @@ const props = defineProps({
 })
 
 const form = useForm({
-  title: 'Trening #' + ++props.seriesCount,
-  dateTime: new Date().toISOString().slice(0, 16),
+  title: 'Trening #' + (props.seriesCount + 1),
+  dateTime: null,
   place: '',
   coverImage: null,
   note: '',
@@ -43,26 +49,62 @@ const submitForm = () => {
   form.post(route('series.store'), {
     onSuccess: () => {
       form.clearErrors()
+      toast.success('Seria została dodana.')
     },
   })
 }
 
 const openTargetModal = ref(false)
-
-
-const addTarget = () => {
-  form.targets.push({
-    points: target.value.points,
-    pointsEarned: target.value.pointsEarned,
-    pointsMax: target.value.pointsMax,
-    centerHits: target.value.centerHits,
-    image: target.value.image,
-  })
-}
+const editingIndex = ref(null);
 
 const removeTarget = (index) => {
   form.targets.splice(index, 1)
 }
+
+const editTarget = (index) => {
+  editingIndex.value = index
+  target.value = {...form.targets[index]}
+  numberOfPoints.value = target.value.points.length
+  openTargetModal.value = true
+}
+
+
+const saveTarget = () => {
+  if (editingIndex.value === null) {
+    form.targets.push({
+      points: target.value.points,
+      pointsEarned: target.value.pointsEarned,
+      pointsMax: target.value.pointsMax,
+      centerHits: target.value.centerHits,
+      image: target.value.image,
+      imagePreview: target.value.image ? URL.createObjectURL(target.value.image) : null,
+    })
+  } else {
+    form.targets[editingIndex.value] = {
+      points: target.value.points,
+      pointsEarned: target.value.pointsEarned,
+      pointsMax: target.value.pointsMax,
+      centerHits: target.value.centerHits,
+      image: target.value.image,
+      imagePreview: target.value.image ? URL.createObjectURL(target.value.image) : null,
+    }
+    editingIndex.value = null
+  }
+  resetTarget();
+  openTargetModal.value = false
+}
+
+const resetTarget = () => {
+  target.value = {
+    points: [],
+    pointsEarned: 0,
+    pointsMax: 0,
+    centerHits: 0,
+    image: null,
+  }
+  numberOfPoints.value = 0
+};
+
 
 const numberOfPoints = ref(0)
 
@@ -75,12 +117,31 @@ const target = ref({
 })
 
 watch(numberOfPoints, (newVal) => {
-  target.value.points = Array.from({ length: newVal }, (_, index) => target.value.points[index] || 0);
+  target.value.points = Array.from({length: newVal}, (_, index) => target.value.points[index] || 0)
+  target.value.pointsMax = newVal * 10
 })
 
-watch(target.value.points, (newVal) => {
-  target.value.pointsEarned = newVal.reduce((acc, curr) => acc + curr, 0);
-})
+watch(() => target.value.points, (newVal) => {
+  target.value.pointsEarned = newVal.reduce((total, point) => total + (point || 0), 0)
+}, {deep: true});
+
+const validateInput = (key, index = null, max = 10) => {
+  if (index !== null) {
+    const value = target.value[key][index];
+    if (!/^\d+$/.test(value) || value < 0) {
+      target.value[key][index] = 0;
+    } else if (value > max) {
+      target.value[key][index] = max
+    }
+  } else {
+    const value = target.value[key];
+    if (!/^\d+$/.test(value) || value < 0) {
+      target.value[key] = 0
+    } else if (value > max) {
+      target.value[key] = max
+    }
+  }
+}
 </script>
 
 <template>
@@ -130,13 +191,8 @@ watch(target.value.points, (newVal) => {
 
           <div class="flex flex-col sm:flex-row justify-between gap-6">
             <div class="flex-1">
-              <InputLabel for="dateTime" value="Data i godzina"/>
-              <TextInput
-                  id="dateTime"
-                  v-model="form.dateTime"
-                  type="datetime-local"
-                  class="mt-1 block w-full"
-              />
+              <InputLabel for="dateTime" value="Data i godzina*"/>
+              <VueDatePicker v-model="form.dateTime" type="datetime" class="py-2"/>
               <InputError class="mt-2" :message="form.errors.dateTime"/>
             </div>
 
@@ -164,7 +220,7 @@ watch(target.value.points, (newVal) => {
             </div>
 
             <div class="sm:w-1/2">
-              <InputLabel for="coverImage" value="Notatki"/>
+              <InputLabel for="note" value="Notatki"/>
               <TextArea
                   id="note"
                   v-model="form.note"
@@ -175,7 +231,7 @@ watch(target.value.points, (newVal) => {
           </div>
 
           <div>
-            <h2 class="text-lg font-medium text-green">
+            <h2 class="text-lg font-medium text-green pb-4">
               Tarcze
             </h2>
 
@@ -191,21 +247,21 @@ watch(target.value.points, (newVal) => {
                         @click="editTarget(index)"
                         class="text-gray-500 hover:text-gray-700 focus:ring focus:ring-gray-300"
                     >
-                      <IconPencil class="size-5" />
+                      <IconPencil class="size-5"/>
                     </button>
                     <button
                         type="button"
                         @click="removeTarget(index)"
                         class="text-gray-500 hover:text-gray-700 focus:ring focus:ring-gray-300"
                     >
-                      <IconTrash class="size-5" />
+                      <IconTrash class="size-5"/>
                     </button>
                   </div>
                 </div>
                 <div class="flex gap-2">
                   <img
-                      v-if="target.image"
-                      :src="target.image"
+                      v-if="target.imagePreview"
+                      :src="target.imagePreview"
                       alt="zdjęcie tarczy"
                       class="h-20 w-20 object-cover rounded-lg"
                   />
@@ -214,18 +270,21 @@ watch(target.value.points, (newVal) => {
                       <span class="font-semibold">Punkty:</span> {{ target.points }}
                     </div>
                     <div>
-                      <span class="font-semibold">Punkty maksymalne:</span> {{ target.pointsMax }}
-                    </div>
-                    <div>
-                      <span class="font-semibold">Suma punktów:</span> {{ target.pointsEarned }}
+                      {{ target.pointsEarned }} / {{ target.pointsMax }}
                     </div>
                     <div>
                       <span class="font-semibold">Trafienia w środek:</span> {{ target.centerHits }}
                     </div>
+                    <InputError :message="form.errors['targets.' + index + '.points']" />
+                    <InputError :message="form.errors['targets.' + index + '.pointsEarned']" />
+                    <InputError :message="form.errors['targets.' + index + '.pointsMax']" />
+                    <InputError :message="form.errors['targets.' + index + '.centerHits']" />
+                    <InputError :message="form.errors['targets.' + index + '.image']" />
                   </div>
                 </div>
               </div>
-              <PrimaryButton type="button" @click="openTargetModal = true" class="h-min !p-2 aspect-square my-auto"  title="Dodaj tarczę">
+              <PrimaryButton type="button" @click="openTargetModal = true" class="h-min !p-2 aspect-square my-auto"
+                             title="Dodaj tarczę">
                 <IconPlus class="size-5"/>
               </PrimaryButton>
             </div>
@@ -246,21 +305,12 @@ watch(target.value.points, (newVal) => {
 
               <div class="mt-6 space-y-6">
                 <div>
-                  <InputLabel for="zdjęcieTarczy" value="Zdjęcie tarczy"/>
-                  <UploadFile
-                      id="zdjęcieTarczy"
-                      v-model="target.image"
-                      class="block w-full"
-                  />
-                </div>
-
-                <div>
-                  <InputLabel for="punkty" value="Punkty"/>
-                  <Select id="punkty" v-model="numberOfPoints" :options="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+                  <InputLabel for="points" value="Liczba oddanych strzałów*"/>
+                  <Select id="points" v-model="numberOfPoints" :options="[...Array(10).keys()].map(i => i + 1)"
                           class="mt-1 block w-full"/>
                 </div>
 
-                <div>
+                <div v-if="numberOfPoints">
                   <div class="flex flex-wrap gap-6">
                     <div
                         v-for="(point, index) in target.points"
@@ -275,55 +325,67 @@ watch(target.value.points, (newVal) => {
                           min="0"
                           max="10"
                           class="border border-gray-300 rounded px-2 py-1 w-20"
+                          @input="validateInput('points', index)"
                       />
                     </div>
                   </div>
                 </div>
+                <div v-if="numberOfPoints" class="space-y-6">
+                  <div>
+                    <InputLabel for="pointsSum" value="Suma punktów"/>
+                    <TextInput
+                        id="pointsSum"
+                        v-model="target.pointsEarned"
+                        type="number"
+                        min="0"
+                        max="{{target.points.length * 10}}"
+                        class="mt-1 block w-full"
+                        @input="validateInput('pointsEarned', null, target.points.length * 10)"
+                    />
+                  </div>
 
-                <div>
-                  <InputLabel for="sumaPunktów" value="Suma punktów"/>
-                  <TextInput
-                      id="sumaPunktów"
-                      v-model="target.pointsEarned"
-                      type="text"
-                      class="mt-1 block w-full"
-                  />
-                </div>
+                  <div>
+                    <InputLabel for="pointsMax" value="Punkty maksymalne"/>
+                    <TextInput
+                        id="pointsMax"
+                        v-model="target.pointsMax"
+                        type="number"
+                        min="0"
+                        max="{{target.points.length * 10}}"
+                        class="mt-1 block w-full"
+                        @input="validateInput('pointsMax', null, target.points.length * 10)"
+                    />
+                  </div>
 
-                <div>
-                  <InputLabel for="punktyMax" value="Punkty maksymalne"/>
-                  <TextInput
-                      id="punktyMax"
-                      v-model="target.pointsMax"
-                      type="text"
-                      class="mt-1 block w-full"
-                  />
-                </div>
+                  <div>
+                    <InputLabel for="central" value="Centralne dziesiątki"/>
+                    <TextInput
+                        id="central"
+                        v-model="target.centerHits"
+                        type="number"
+                        min="0"
+                        max="{{target.points.length}}"
+                        class="mt-1 block w-full"
+                        @input="validateInput('centerHits', null, target.points.length)"
+                    />
+                  </div>
 
-                <div>
-                  <InputLabel for="punktyZa" value="Punkty za"/>
-                  <TextInput
-                      id="punktyZa"
-                      v-model="target.pointsEarned"
-                      type="text"
-                      class="mt-1 block w-full"
-                  />
-                </div>
-
-                <div>
-                  <InputLabel for="trafienia" value="Trafienia w środek"/>
-                  <TextInput
-                      id="trafienia"
-                      v-model="target.centerHits"
-                      type="text"
-                      class="mt-1 block w-full"
-                  />
+                  <div>
+                    <InputLabel for="targetImg" value="Zdjęcie tarczy"/>
+                    <UploadFile
+                        id="targetImg"
+                        v-model="target.image"
+                        class="block mt-1 w-full"
+                    />
+                  </div>
                 </div>
               </div>
 
               <div class="mt-6 flex justify-end gap-2">
-                <SecondaryButton @click="openTargetModal = false">Anuluj</SecondaryButton>
-                <PrimaryButton @click="addTarget">Dodaj</PrimaryButton>
+                <SecondaryButton @click="openTargetModal = false; resetTarget()">Anuluj</SecondaryButton>
+                <PrimaryButton @click="saveTarget" :disabled="!numberOfPoints">
+                  {{ editingIndex === null ? 'Dodaj' : 'Zapisz' }}
+                </PrimaryButton>
               </div>
             </div>
           </Modal>
@@ -339,3 +401,9 @@ watch(target.value.points, (newVal) => {
     </template>
   </AuthenticatedLayout>
 </template>
+
+<style>
+.dp__theme_light {
+  --dp-primary-color: #81B29A;
+}
+</style>

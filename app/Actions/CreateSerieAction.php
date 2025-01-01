@@ -18,7 +18,7 @@ class CreateSerieAction
             $publicPath = str_replace('public/', '/storage/', $storedPath);
         }
 
-        return Serie::query()->create([
+        $serie =  Serie::query()->create([
             "title" => $data->title,
             "user_id" => $data->user_id,
             "dateTime" => $data->dateTime,
@@ -28,5 +28,21 @@ class CreateSerieAction
             "coverImage" => $publicPath ?? null,
             "note" => $data->note,
         ]);
+
+        foreach($data->targets as $target) {
+            if($target->image) {
+                $storedPath = $target->image->store('public/targets');
+                $publicPath = str_replace('public/', '/storage/', $storedPath);
+            }
+            $serie->targets()->create([
+                "points" => $target->points,
+                "points_earned" => $target->pointsEarned,
+                "points_max" => $target->pointsMax,
+                "center_hits" => $target->centerHits,
+                "image" => $publicPath ?? null,
+            ]);
+        }
+
+        return $serie;
     }
 }

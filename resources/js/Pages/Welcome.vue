@@ -20,7 +20,7 @@ defineProps({
         <div class="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
           <div class="relative w-full lg:max-w-xl lg:shrink-0 xl:max-w-2xl">
             <h1 class="text-pretty text-5xl font-semibold tracking-tight text-green sm:text-7xl">
-              Celuj w doskonałość
+              Celuj w doskonałość #wPunkt
             </h1>
             <p class="mt-8 text-pretty text-lg font-medium text-gray-500 sm:max-w-md sm:text-xl/8 lg:max-w-none">
               Rejestruj każdy trening i śledź swoje postępy w strzelectwie.

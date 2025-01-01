@@ -55,7 +55,7 @@ const clearFile = () => {
     >
       <IconPhotoUp class="size-4 " />
       Wybierz zdjęcie
-      <span class="text-xs">Dopuszczalne formaty: JPG, PNG, WEBP</span>
+      <span class="text-xs">Dopuszczalne formaty: JPG, JPEG, PNG, WEBP</span>
     </button>
 
     <div v-if="model" class="flex items-center justify-self-start text-sm text-gray-500 mt-2">

@@ -26,7 +26,7 @@ class SerieFactory extends Factory
             "dateTime" => fake()->dateTime(),
             "place" => fake()->sentence(),
             "coverImage" => fake()->boolean(50)
-                ? '/storage/factory/shooters.jpeg'
+                ? '/storage/series/shooters.jpeg'
                 : null,
             "note" => fake()->paragraph(),
             "type" => fake()->randomElement(array_column(SerieType::cases(), "value")),

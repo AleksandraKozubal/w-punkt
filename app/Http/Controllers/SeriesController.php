@@ -80,6 +80,6 @@ class SeriesController extends Controller
     {
         $serie->delete();
 
-        return redirect()->route("series.index");
+        return redirect()->route("series.index")->with("success");
     }
 }

@@ -9,6 +9,7 @@ use App\Enums\WeaponType;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 class SerieData implements Arrayable
 {
@@ -21,6 +22,7 @@ class SerieData implements Arrayable
         public ?UploadedFile $coverImage,
         public ?string $note,
         public int $user_id,
+        public ?Collection $targets = null,
     ) {}
 
     public function toArray(): array
@@ -34,7 +36,8 @@ class SerieData implements Arrayable
             "coverImage" => $this->coverImage,
             "note" => $this->note,
             "user_id" => auth()->id(),
-        ];
+            "targets" => $this->targets->map(fn(TargetData $target) => $target->toArray())->toArray(),
+            ];
     }
 
     public static function fromArray(array $data): self
@@ -48,6 +51,7 @@ class SerieData implements Arrayable
             coverImage: $data["coverImage"] ?? null,
             note: $data["note"] ?? null,
             user_id: auth()->id(),
+            targets: collect($data["targets"])->map(fn(array $target) => TargetData::fromArray($target)),
         );
     }
 }

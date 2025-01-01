@@ -123,5 +123,11 @@ return [
         "place" => "miejsce",
         "coverImage" => "zdjęcie",
         "note" => "notatka",
+        "targets.*.points" => "punkty",
+        "targets.*.points.*" => "punkt",
+        "targets.*.pointsEarned" => "suma punktów",
+        "targets.*.pointsMax" => "maksymalna liczba punktów",
+        "targets.*.centerHits" => "centralne dziesiątki",
+        "targets.*.image" => "zdjęcie",
     ],
 ];

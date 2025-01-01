@@ -1,9 +1,12 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
-import { Head } from '@inertiajs/vue3'
+import {Head, router} from '@inertiajs/vue3'
 import { IconDotsVertical, IconTrophy, IconViewfinder, IconMapPin, IconCalendarTime, IconClipboard } from '@tabler/icons-vue'
 import DropdownLink from '@/Components/DropdownLink.vue'
 import Dropdown from '@/Components/Dropdown.vue'
+import { useToast } from "vue-toastification";
+
+const toast = useToast()
 
 const props = defineProps({
   serie: {
@@ -11,6 +14,17 @@ const props = defineProps({
     required: true,
   },
 })
+
+const deleteSerie = (id) => {
+  router.delete(route('series.destroy', id), {
+    onSuccess: () => {
+      toast.success('Seria została usunięta.')
+    },
+    onError: () => {
+      toast.error('Nie udało się usunąć serii.')
+    }
+  })
+}
 </script>
 
 <template>
@@ -38,7 +52,11 @@ const props = defineProps({
 
             <template #content>
               <DropdownLink :href="route('series.edit', serie.data.id)">Edytuj</DropdownLink>
-              <DropdownLink :href="route('series.destroy', serie.data.id)">Usuń</DropdownLink>
+              <button @click="deleteSerie(serie.data.id)"
+                      class="block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+              >
+                Usuń
+              </button>
             </template>
           </Dropdown>
         </div>
@@ -90,18 +108,16 @@ const props = defineProps({
                   aria-hidden="true"
                 />
               </div>
-              <article
-                class="relative isolate flex overflow-hidden flex-col justify-end rounded-2xl bg-gray-900 size-52 xl:size-44 ml-5 mt-4"
-              >
+              <article class="relative isolate flex overflow-hidden flex-col justify-end rounded-2xl bg-gray-900 size-52 xl:size-44 ml-5 mt-4">
                 <img :src="target.image"
-                     alt="zdjęcie tarczy numer {{ index + 1 }}"
+                     alt="zdjęcie tarczy"
                      class="absolute inset-0 -z-10 size-52 xl:size-44 object-cover"
                 >
 
                 <div class="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
 
                 <h3 class="absolute top-0 right-0 mt-3 mr-3 text-sm font-semibold text-white bg-black/60 px-2 py-1 rounded-lg">
-                  {{ target.pointsEarned + target.centerHits / 10 + " / " + target.pointsMax }}
+                  {{ target.pointsEarned + " / " + target.pointsMax }}
                 </h3>
                 <h3 class="flex gap-1 absolute top-0 right-0 mt-12 mr-3 text-sm font-semibold text-white bg-black/60 px-2 py-1 rounded-lg">
                   {{ target.centerHits }}
