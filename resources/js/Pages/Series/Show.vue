@@ -1,10 +1,10 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
-import {Head, router} from '@inertiajs/vue3'
+import { Head, router } from '@inertiajs/vue3'
 import { IconDotsVertical, IconTrophy, IconViewfinder, IconMapPin, IconCalendarTime, IconClipboard } from '@tabler/icons-vue'
 import DropdownLink from '@/Components/DropdownLink.vue'
 import Dropdown from '@/Components/Dropdown.vue'
-import { useToast } from "vue-toastification";
+import { useToast } from 'vue-toastification'
 
 const toast = useToast()
 
@@ -22,7 +22,7 @@ const deleteSerie = (id) => {
     },
     onError: () => {
       toast.error('Nie udało się usunąć serii.')
-    }
+    },
   })
 }
 </script>
@@ -52,8 +52,8 @@ const deleteSerie = (id) => {
 
             <template #content>
               <DropdownLink :href="route('series.edit', serie.data.id)">Edytuj</DropdownLink>
-              <button @click="deleteSerie(serie.data.id)"
-                      class="block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+              <button class="block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+                      @click="deleteSerie(serie.data.id)"
               >
                 Usuń
               </button>
@@ -85,7 +85,6 @@ const deleteSerie = (id) => {
                 <IconClipboard class="text-gray-500" style="width: 25px; height: 20px;" />
                 {{ serie.data.note }}
               </div>
-
             </div>
           </div>
         </div>

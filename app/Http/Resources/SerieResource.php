@@ -16,7 +16,7 @@ class SerieResource extends JsonResource
         /** @var Serie $resource */
         $resource = $this->resource;
         $seriesCount = Serie::query()
-            ->where("dateTime", "<", $resource->dateTime)
+            ->where("date_time", "<", $resource->date_time)
             ->count();
 
         return [
@@ -24,10 +24,10 @@ class SerieResource extends JsonResource
             "id" => $resource->id,
             "title" => $resource->title,
             "type" => $resource->type,
-            "dateTime" => Carbon::parse($resource->dateTime)->format('d.m.y H:i'),
+            "dateTime" => $resource->date_time->toDateTimeString('minute'),
             "place" => $resource->place,
             "weapon" => $resource->weapon,
-            "coverImage" => $resource->coverImage,
+            "coverImage" => $resource->cover_image,
             "note" => $resource->note,
             "targets" => $resource->targets->isNotEmpty()
                 ? TargetResource::collection($resource->targets)

@@ -10,6 +10,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  rows: {
+    type: Number,
+    default: 3,
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -26,7 +30,7 @@ const value = computed({
   <div>
     <textarea
       v-model="value"
-      rows="3"
+      :rows="rows"
       class="border-gray-300 focus:border-green focus:ring-green rounded-md shadow-sm block w-full bg-white text-black caret-orange focus:outline-none focus:ring-1 py-2 px-3 text-base border"
     />
   </div>

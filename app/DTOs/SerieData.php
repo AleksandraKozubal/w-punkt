@@ -21,7 +21,7 @@ class SerieData implements Arrayable
         public WeaponType $weapon,
         public ?UploadedFile $coverImage,
         public ?string $note,
-        public int $user_id,
+        public int $userId,
         public ?Collection $targets = null,
     ) {}
 
@@ -29,13 +29,13 @@ class SerieData implements Arrayable
     {
         return [
             "title" => $this->title,
-            "dateTime" => $this->dateTime,
+            "dateTime" => $this->dateTime->toDateTimeString(),
             "place" => $this->place,
             "type" => $this->type,
             "weapon" => $this->weapon,
             "coverImage" => $this->coverImage,
             "note" => $this->note,
-            "user_id" => auth()->id(),
+            "userId" => auth()->id(),
             "targets" => $this->targets->map(fn(TargetData $target) => $target->toArray())->toArray(),
             ];
     }
@@ -44,13 +44,13 @@ class SerieData implements Arrayable
     {
         return new self(
             title: $data["title"],
-            dateTime: Carbon::parse($data["dateTime"]) ?? null,
+            dateTime: Carbon::parse($data["dateTime"]),
             place: $data["place"] ?? null,
             type: SerieType::tryFrom($data["type"]),
             weapon: WeaponType::tryFrom($data["weapon"]),
             coverImage: $data["coverImage"] ?? null,
             note: $data["note"] ?? null,
-            user_id: auth()->id(),
+            userId: auth()->id(),
             targets: collect($data["targets"])->map(fn(array $target) => TargetData::fromArray($target)),
         );
     }

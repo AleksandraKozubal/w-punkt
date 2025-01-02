@@ -18,11 +18,11 @@ use Illuminate\Support\Collection;
  * @poperty string $id
  * @property string $title
  * @property User $user_id
- * @property Carbon $dateTime
+ * @property Carbon $date_time
  * @property SerieType $type
  * @property ?string $place
  * @property WeaponType $weapon
- * @property ?string $coverImage
+ * @property ?string $cover_image
  * @property ?string $note
  * @property-read User $user
  * @property-read Collection<Target> $targets
@@ -38,15 +38,15 @@ class Serie extends Model
     protected $fillable = [
         "title",
         "user_id",
-        "dateTime",
+        "date_time",
         "type",
         "place",
         "weapon",
-        "coverImage",
+        "cover_image",
         "note",
     ];
     protected $casts = [
-        "dateTime" => "datetime",
+        "date_time" => "datetime",
         "type" => SerieType::class,
         "weapon" => WeaponType::class,
     ];

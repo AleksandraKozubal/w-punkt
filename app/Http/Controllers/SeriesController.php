@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Actions\CreateSerieAction;
+use App\Actions\UpdateSerieAction;
 use App\Enums\SerieType;
 use App\Enums\WeaponType;
 use App\Http\Requests\SerieRequest;
@@ -21,7 +22,7 @@ class SeriesController extends Controller
     {
         $series = Serie::query()
             ->where("user_id", auth()->id())
-            ->orderByDesc("dateTime")
+            ->orderByDesc("date_time")
             ->paginate(10);
 
         return inertia("Series/Index")
@@ -52,28 +53,25 @@ class SeriesController extends Controller
     {
         $serie = $createSerieAction->execute($request->serieData());
 
-        return redirect()->route("series.show", $serie);
+        return redirect()->route("series.show", $serie)->with("success");
     }
 
     public function edit(Serie $serie): Response
     {
+        $allSeriesTypes = array_column(SerieType::cases(), "value");
+        $allWeaponsTypes = array_column(WeaponType::cases(), "value");
+
         return inertia("Series/Edit")
-            ->with("serie", new SerieResource($serie));
+            ->with("serie", new SerieResource($serie))
+            ->with("allSeriesTypes", $allSeriesTypes)
+            ->with("allWeaponsTypes", $allWeaponsTypes);
     }
 
-    public function update(Serie $serie): RedirectResponse
+    public function update(SerieRequest $request, Serie $serie, UpdateSerieAction $updateSerieAction): RedirectResponse
     {
-        $serie->update(request()->validate([
-            "title" => ["required", "string"],
-            "dateTime" => ["required", "date"],
-            "place" => ["required", "string"],
-            "coverImage" => ["nullable", "image"],
-            "note" => ["nullable", "string"],
-            "type" => ["required", "string"],
-            "weapon" => ["required", "string"],
-        ]));
+        $serie = $updateSerieAction->execute($serie, $request->serieData());
 
-        return redirect()->route("series.show", $serie);
+    return redirect()->route("series.show", $serie)->with("success");
     }
 
     public function destroy(Serie $serie): RedirectResponse

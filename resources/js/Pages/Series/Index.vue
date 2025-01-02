@@ -1,14 +1,14 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
-import {Head, Link, router} from '@inertiajs/vue3'
+import { Head, Link, router } from '@inertiajs/vue3'
 import Pagination from '@/Components/Pagination.vue'
-import {IconTrophy, IconViewfinder, IconCirclePlusFilled, IconTargetOff, IconDotsVertical} from '@tabler/icons-vue'
+import { IconTrophy, IconViewfinder, IconCirclePlusFilled, IconTargetOff, IconDotsVertical } from '@tabler/icons-vue'
 import PrimaryButton from '@/Components/Forms/PrimaryButton.vue'
-import Dropdown from "@/Components/Dropdown.vue";
-import DropdownLink from "@/Components/DropdownLink.vue";
-import { useToast } from "vue-toastification";
+import Dropdown from '@/Components/Dropdown.vue'
+import DropdownLink from '@/Components/DropdownLink.vue'
+import { useToast } from 'vue-toastification'
 
-const toast = useToast();
+const toast = useToast()
 
 const props = defineProps({
   series: {
@@ -26,7 +26,7 @@ const deleteSerie = (id) => {
     },
     onError: () => {
       toast.error('Nie udało się usunąć serii.')
-    }
+    },
   })
 }
 const { series } = props
@@ -97,20 +97,20 @@ const { series } = props
               <div class="flex justify-end">
                 <Dropdown align="right" width="48">
                   <template #trigger>
-              <span class="inline-flex rounded-md">
-                <button
-                    type="button"
-                    class="inline-flex items-center p-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
-                >
-                  <IconDotsVertical class="size-4" />
-                </button>
-              </span>
+                    <span class="inline-flex rounded-md">
+                      <button
+                        type="button"
+                        class="inline-flex items-center p-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                      >
+                        <IconDotsVertical class="size-4" />
+                      </button>
+                    </span>
                   </template>
 
                   <template #content>
                     <DropdownLink :href="route('series.edit', serie.id)">Edytuj</DropdownLink>
-                    <button @click="deleteSerie(serie.id)"
-                            class="block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+                    <button class="block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+                            @click="deleteSerie(serie.id)"
                     >
                       Usuń
                     </button>
@@ -121,11 +121,11 @@ const { series } = props
           </li>
         </ul>
         <div v-else>
-            <div class="text-center py-4">
-              <IconTargetOff class="size-16 text-orange mx-auto" />
-              <h3 class="mt-2 text-sm font-semibold text-gray-900">Brak rekordów</h3>
-              <p class="mt-1 text-sm text-gray-500">Dodaj pierwszą serię, aby zacząć śledzić swoje postępy.</p>
-            </div>
+          <div class="text-center py-4">
+            <IconTargetOff class="size-16 text-orange mx-auto" />
+            <h3 class="mt-2 text-sm font-semibold text-gray-900">Brak rekordów</h3>
+            <p class="mt-1 text-sm text-gray-500">Dodaj pierwszą serię, aby zacząć śledzić swoje postępy.</p>
+          </div>
         </div>
       </div>
       <div class="max-w-7xl mx-auto py-4">

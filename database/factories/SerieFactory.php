@@ -23,9 +23,9 @@ class SerieFactory extends Factory
         return [
             "title" => fake()->sentence(),
             "user_id" => User::factory(),
-            "dateTime" => fake()->dateTime(),
+            "date_time" => fake()->dateTime(),
             "place" => fake()->sentence(),
-            "coverImage" => fake()->boolean(50)
+            "cover_image" => fake()->boolean(50)
                 ? '/storage/series/shooters.jpeg'
                 : null,
             "note" => fake()->paragraph(),

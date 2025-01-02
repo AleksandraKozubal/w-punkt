@@ -15,9 +15,9 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('title');
             $table->foreignIdFor(User::class)->constrained();
-            $table->dateTime('dateTime');
+            $table->dateTime('date_time');
             $table->string('place')->nullable();
-            $table->string('coverImage')->nullable();
+            $table->string('cover_image')->nullable();
             $table->text('note')->nullable();
             $table->enum('type', array_column(SerieType::cases(), 'value'));
             $table->enum('weapon', array_column(WeaponType::cases(), 'value'));

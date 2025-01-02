@@ -20,7 +20,7 @@ class SerieSummaryResource extends JsonResource
             "id" => $resource->id,
             "title" => $resource->title,
             "type" => $resource->type,
-            "dateTime" => Carbon::parse($resource->dateTime)->format('d.m.y H:i'),
+            "dateTime" => $resource->date_time->toDateTimeString('minute'),
             "weapon" => $resource->weapon,
             "targets" => TargetResource::collection($resource->targets),
         ];

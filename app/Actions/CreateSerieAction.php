@@ -20,12 +20,12 @@ class CreateSerieAction
 
         $serie =  Serie::query()->create([
             "title" => $data->title,
-            "user_id" => $data->user_id,
-            "dateTime" => $data->dateTime,
+            "user_id" => $data->userId,
+            "date_time" => $data->dateTime,
             "type" => $data->type,
             "place" => $data->place,
             "weapon" => $data->weapon,
-            "coverImage" => $publicPath ?? null,
+            "cover_image" => $publicPath ?? null,
             "note" => $data->note,
         ]);
 
