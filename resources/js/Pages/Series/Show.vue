@@ -157,11 +157,6 @@ const showTargetDetails = (target) => {
           <h2 class="text-lg font-medium text-gray-900">
             Szczegóły tarczy
           </h2>
-
-          <!--          <p class="mt-1 text-sm text-gray-600">-->
-          <!--            Podaj informacje takie jak zdobyte punkty, centralne dziesiątki i zdjęcie tarczy.-->
-          <!--          </p>-->
-
           <div class="mt-6 space-y-6">
             <div class="flex flex-wrap justify-center gap-6">
               <div

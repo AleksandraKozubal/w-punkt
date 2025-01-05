@@ -12,7 +12,7 @@
 const props = defineProps({
   disabled: {
     type: Boolean,
-    default: false,  // Wartość domyślna to false
+    default: false,
   },
 })
 </script>
