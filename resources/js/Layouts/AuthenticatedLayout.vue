@@ -32,7 +32,7 @@ const showingNavigationDropdown = ref(false)
                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                   Strona główna
                 </NavLink>
-                <NavLink :href="route('records')" :active="route().current('records')">
+                <NavLink :href="route('series.index')" :active="route().current('series.index')">
                   Serie
                 </NavLink>
                 <NavLink :href="route('stats')" :active="route().current('stats')">
@@ -119,7 +119,16 @@ const showingNavigationDropdown = ref(false)
         >
           <div class="pt-2 pb-3 space-y-1">
             <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-              Dashboard
+              Strona główna
+            </ResponsiveNavLink>
+            <ResponsiveNavLink :href="route('series.index')" :active="route().current('series.index')">
+              Serie
+            </ResponsiveNavLink>
+            <ResponsiveNavLink :href="route('stats')" :active="route().current('stats')">
+              Statystyki
+            </ResponsiveNavLink>
+            <ResponsiveNavLink :href="route('tips')" :active="route().current('tips')">
+              Porady
             </ResponsiveNavLink>
           </div>
 
@@ -132,16 +141,14 @@ const showingNavigationDropdown = ref(false)
             </div>
 
             <div class="mt-3 space-y-1">
-              <ResponsiveNavLink :href="route('profile.edit')"> Profil </ResponsiveNavLink>
-              <ResponsiveNavLink :href="route('logout')" method="post" as="button">
-                Wyloguj
-              </ResponsiveNavLink>
+              <ResponsiveNavLink :href="route('profile.edit')">Profil</ResponsiveNavLink>
+              <ResponsiveNavLink :href="route('logout')" method="post" as="button">Wyloguj</ResponsiveNavLink>
             </div>
           </div>
         </div>
       </nav>
 
-      <header v-if="$slots.header" class="bg-white shadow">
+      <header v-if="$slots.header" class="bg-white shadow-md">
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <slot name="header" />
         </div>

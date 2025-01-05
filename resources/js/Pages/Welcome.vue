@@ -20,7 +20,7 @@ defineProps({
         <div class="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
           <div class="relative w-full lg:max-w-xl lg:shrink-0 xl:max-w-2xl">
             <h1 class="text-pretty text-5xl font-semibold tracking-tight text-green sm:text-7xl">
-              Celuj w doskonałość
+              Celuj w doskonałość #wPunkt
             </h1>
             <p class="mt-8 text-pretty text-lg font-medium text-gray-500 sm:max-w-md sm:text-xl/8 lg:max-w-none">
               Rejestruj każdy trening i śledź swoje postępy w strzelectwie.
@@ -41,7 +41,7 @@ defineProps({
                     :href="route('login')"
                     class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
                   >
-                    Log in
+                    Logowanie
                   </Link>
 
                   <Link
@@ -49,7 +49,7 @@ defineProps({
                     :href="route('register')"
                     class="ms-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
                   >
-                    Register
+                    Rejestracja
                   </Link>
                 </template>
               </div>
@@ -62,7 +62,7 @@ defineProps({
               <div class="relative">
                 <img src="/photos/gun.avif"
                      alt="Pneumatic Rifle"
-                     class="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
+                     class="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out"
                 >
                 <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
               </div>
@@ -72,14 +72,14 @@ defineProps({
               <div class="relative">
                 <img
                   src="/photos/targets.avif"
-                  alt="" class="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
+                  alt="" class="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg  hover:scale-105 transition-transform duration-300 ease-in-out"
                 >
                 <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
               </div>
               <div class="relative">
                 <img
                   src="/photos/target.avif"
-                  alt="" class="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
+                  alt="" class="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg  hover:scale-105 transition-transform duration-300 ease-in-out"
                 >
                 <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
               </div>
@@ -88,14 +88,14 @@ defineProps({
               <div class="relative">
                 <img
                   src="/photos/pneumatic-riffle.avif"
-                  alt="" class="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
+                  alt="" class="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out"
                 >
                 <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
               </div>
               <div class="relative">
                 <img
                   src="/photos/gun-pointing.avif"
-                  alt="" class="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
+                  alt="" class="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out"
                 >
                 <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
               </div>
