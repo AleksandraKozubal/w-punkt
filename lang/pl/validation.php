@@ -123,6 +123,7 @@ return [
         "place" => "miejsce",
         "coverImage" => "zdjęcie",
         "note" => "notatka",
+        "targets" => "tarcze",
         "targets.*.points" => "punkty",
         "targets.*.points.*" => "punkt",
         "targets.*.pointsEarned" => "suma punktów",

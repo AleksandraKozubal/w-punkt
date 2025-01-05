@@ -6,9 +6,8 @@ import {
   IconClipboard,
   IconMapPin,
   IconPencil,
-  IconPlus,
+  IconPlus, IconTarget,
   IconTrash,
-  IconViewfinder,
 } from '@tabler/icons-vue'
 import UploadFile from '@/Components/Forms/UploadFile.vue'
 import { useToast } from 'vue-toastification'
@@ -21,7 +20,7 @@ import TextInput from '@/Components/Forms/TextInput.vue'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import TextArea from '@/Components/Forms/TextArea.vue'
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import Modal from '@/Components/Modal.vue'
 
 const toast = useToast()
@@ -41,15 +40,16 @@ const props = defineProps({
   },
 })
 
-//format for vue-datepicker
-const formatDateTime = (date) => {
-  const [day, month, year, hour, minute] = date.split(/[\.\s:]+/)
 
-  return `${year}-${month}-${day}T${hour}:${minute}:00`
+async function urlToFile(url, filename, mimeType) {
+  const response = await fetch(url)
+  const data = await response.blob()
+  return new File([data], filename, { type: mimeType })
 }
 
 const form = useForm({
-  coverImage: props.serie.data.coverImage,
+  id: props.serie.data.id,
+  coverImage: null,
   type: props.serie.data.type,
   weapon: props.serie.data.weapon,
   title: props.serie.data.title,
@@ -59,9 +59,33 @@ const form = useForm({
   targets: props.serie.data.targets ?? [],
 })
 
+
+onMounted(async () => {
+  if(props.serie.data.coverImage){
+    const url = props.serie.data.coverImage
+    const filename = url.split('/').pop()
+    const mimeType = `image/${filename.split('.').pop()}`
+
+    form.coverImage = await urlToFile(url, filename, mimeType)
+  }
+
+  form.targets = await Promise.all(props.serie.data.targets.map(async target => {
+    if(target.image){
+      const url = target.image
+      const filename = url.split('/').pop()
+      const mimeType = `image/${filename.split('.').pop()}`
+      target.image = await urlToFile(url, filename, mimeType)
+    }
+
+    return target
+  }))
+})
+
+
 const submitForm = () => {
-  form.patch(route('series.update', props.serie.data.id), {
+  form.post(route('series.update', props.serie.data.id), {
     onSuccess: () => {
+      form.clearErrors()
       toast.success('Seria została zaktualizowana.')
     },
     onError: () => {
@@ -80,7 +104,13 @@ const removeTarget = (index) => {
 
 const editTarget = (index) => {
   editingIndex.value = index
-  target.value = { ...form.targets[index] }
+  target.value = {
+    points: form.targets[index].points,
+    pointsEarned: form.targets[index].pointsEarned,
+    pointsMax: form.targets[index].pointsMax,
+    centerHits: form.targets[index].centerHits,
+    image: form.targets[index].image,
+  }
   numberOfPoints.value = target.value.points.length
   openTargetModal.value = true
 }
@@ -121,7 +151,6 @@ const resetTarget = () => {
   }
   numberOfPoints.value = 0
 }
-
 
 const numberOfPoints = ref(0)
 
@@ -172,9 +201,13 @@ const validateInput = (key, index = null, max = 10) => {
     <div class="py-6 max-w-7xl mx-auto space-y-6">
       <form class="mt-6 space-y-6" @submit.prevent="submitForm">
         <div class="bg-white shadow-sm sm:rounded-2xl py-10">
-          <div class="flex flex-col md:flex-row px-6 lg:px-8 sm:rounded-lg gap-4 w-full">
-            <div class="m-auto">
-              <UploadFile v-model="form.coverImage" />
+          <div class="flex flex-col md:flex-row px-6 lg:px-8 overflow-hidden sm:rounded-lg gap-4">
+            <div class="m-auto space-y-2">
+              <InputLabel for="coverImage" value="Zdjęcie" />
+              <UploadFile
+                id="coverImage"
+                v-model="form.coverImage"
+              />
             </div>
             <div class="flex flex-col gap-2 w-full">
               <div class="flex flex-col sm:flex-row justify-between gap-6">
@@ -204,7 +237,7 @@ const validateInput = (key, index = null, max = 10) => {
                   class="mt-1 block w-full"
                   autofocus
                 />
-                <InputError class="mt-2" :message="form.errors.title" />
+                <InputError class="mt-2 font-normal" :message="form.errors.title" />
               </div>
               <div class="flex gap-1">
                 <IconMapPin class="size-5 text-gray-500 my-auto" />
@@ -222,7 +255,7 @@ const validateInput = (key, index = null, max = 10) => {
                 <IconCalendarTime class="size-5 text-gray-500 my-auto" />
                 <div class="flex-1">
                   <VueDatePicker v-model="form.dateTime" type="datetime" class="py-2" hide-input-icon />
-                  <InputError class="mt-2" :message="form.errors.dateTime" />
+                  <InputError :message="form.errors.dateTime" />
                 </div>
               </div>
               <div class="flex gap-1">
@@ -240,7 +273,7 @@ const validateInput = (key, index = null, max = 10) => {
         </div>
         <div class="p-10 bg-white overflow-hidden shadow-sm sm:rounded-2xl">
           <div class="flex flex-wrap gap-8">
-            <div v-for="(target, index) in form.targets" :key="index" class="flex flex-col gap-2">
+            <div v-for="(currentTarget, index) in form.targets" :key="index" class="flex flex-col gap-2">
               <div class="flex justify-between gap-2">
                 <div class="text-lg font-semibold text-orange">
                   #{{ index + 1 }}
@@ -263,21 +296,29 @@ const validateInput = (key, index = null, max = 10) => {
                 </div>
               </div>
               <div class="flex gap-2">
+                <img v-if="currentTarget.image && !currentTarget.imagePreview"
+                     :src="'/storage/targets/' + currentTarget.image.name"
+                     alt="zdjęcie tarczy"
+                     class="size-20 object-cover rounded-lg"
+                >
                 <img
-                  v-if="target.imagePreview"
-                  :src="target.imagePreview"
+                  v-else-if="currentTarget.imagePreview"
+                  :src="currentTarget.imagePreview"
                   alt="zdjęcie tarczy"
                   class="size-20 object-cover rounded-lg"
                 >
+                <div v-else class="bg-beige size-20 rounded-lg shrink-0">
+                  <IconTarget class="size-16 text-black mt-2 ml-2" />
+                </div>
                 <div class="flex flex-col gap-2">
                   <div>
-                    <span class="font-semibold">Punkty:</span> {{ target.points }}
+                    <span class="font-semibold">Punkty:</span> {{ currentTarget.points }}
                   </div>
                   <div>
-                    {{ target.pointsEarned }} / {{ target.pointsMax }}
+                    <span class="font-semibold">Wynik:</span> {{ currentTarget.pointsEarned }}/{{ currentTarget.pointsMax }}
                   </div>
                   <div>
-                    <span class="font-semibold">Trafienia w środek:</span> {{ target.centerHits }}
+                    <span class="font-semibold">Centralne dziesiątki:</span> {{ currentTarget.centerHits }}
                   </div>
                   <InputError :message="form.errors['targets.' + index + '.points']" />
                   <InputError :message="form.errors['targets.' + index + '.pointsEarned']" />

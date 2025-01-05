@@ -71,7 +71,7 @@ class SeriesController extends Controller
     {
         $serie = $updateSerieAction->execute($serie, $request->serieData());
 
-    return redirect()->route("series.show", $serie)->with("success");
+        return redirect()->route("series.show", $serie)->with("success");
     }
 
     public function destroy(Serie $serie): RedirectResponse

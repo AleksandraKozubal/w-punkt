@@ -16,11 +16,11 @@ class SerieRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'dateTime' => ['required', 'date'],
             'place' => ['nullable', 'string'],
-            'coverImage' => ['nullable', 'image'],
+            'coverImage' => ['nullable', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'note' => ['nullable', 'string'],
             'type' => ['required', Rule::in(array_column(SerieType::cases(), 'value'))],
             'weapon' => ['required', Rule::in(array_column(WeaponType::cases(), 'value'))],
-            'targets' => ['nullable', 'array'],
+            'targets' => ['required', 'array'],
             'targets.*.points' => ['required', 'array'],
             'targets.*.points.*' => ['required', 'integer', 'min:0', 'max:10'],
             'targets.*.pointsEarned' => ['required', 'integer', 'min:0', 'max:100'],
@@ -41,6 +41,7 @@ class SerieRequest extends FormRequest
             $this->merge([
                 'targets' => array_map(function ($target) {
                     return array_merge($target, [
+                        'points' => array_map('intval', $target['points']),
                         'pointsEarned' => (int) $target['pointsEarned'],
                         'pointsMax' => (int) $target['pointsMax'],
                         'centerHits' => (int) $target['centerHits'],

@@ -13,9 +13,9 @@ class CreateSerieAction
 {
     public function execute(SerieData $data): Model
     {
-        if($data->coverImage) {
+        if ($data->coverImage) {
             $storedPath = $data->coverImage->store('public/series');
-            $publicPath = str_replace('public/', '/storage/', $storedPath);
+            $publicCoverImagePath = str_replace('public/', '/storage/', $storedPath);
         }
 
         $serie =  Serie::query()->create([
@@ -25,12 +25,12 @@ class CreateSerieAction
             "type" => $data->type,
             "place" => $data->place,
             "weapon" => $data->weapon,
-            "cover_image" => $publicPath ?? null,
+            "cover_image" => $publicCoverImagePath ?? null,
             "note" => $data->note,
         ]);
 
-        foreach($data->targets as $target) {
-            if($target->image) {
+        foreach ($data->targets as $target) {
+            if ($target->image) {
                 $storedPath = $target->image->store('public/targets');
                 $publicPath = str_replace('public/', '/storage/', $storedPath);
             }

@@ -18,6 +18,7 @@ class TargetResource extends JsonResource
         return [
             "id" => $resource->id,
             "serieId" => $resource->serie_id,
+            "points" => $resource->points,
             "pointsEarned" => $resource->points_earned,
             "pointsMax" => $resource->points_max,
             "centerHits" => $resource->center_hits,

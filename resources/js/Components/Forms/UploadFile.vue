@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { IconTrash, IconPhotoUp } from '@tabler/icons-vue'
 
 const model = defineModel({
@@ -36,6 +36,30 @@ const clearFile = () => {
     input.value.value = ''
   }
 }
+
+watch(() => model.value, (newImage) => {
+  if (newImage instanceof Blob) {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      preview.value = e.target.result
+    }
+    reader.readAsDataURL(newImage)
+  } else {
+    preview.value = newImage
+  }
+})
+
+onMounted(() => {
+  if (model.value && model.value instanceof Blob) {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      preview.value = e.target.result
+    }
+    reader.readAsDataURL(model.value)
+  } else if (model.value && typeof model.value === 'string') {
+    preview.value = model.value
+  }
+})
 </script>
 
 <template>
@@ -70,7 +94,7 @@ const clearFile = () => {
     </div>
 
     <div v-if="preview" class="mt-2 relative">
-      <img :src="preview" alt="Preview" class="max-w-full sm:max-w-80 h-auto border rounded-md shadow-sm">
+      <img :src="preview" alt="Preview" class="max-w-full sm:max-w-80 md:w-fit  h-auto border rounded-md shadow-sm">
     </div>
   </div>
 </template>

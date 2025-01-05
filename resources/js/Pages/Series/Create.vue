@@ -234,7 +234,7 @@ const validateInput = (key, index = null, max = 10) => {
 
           <div>
             <h2 class="text-lg font-medium text-green pb-4">
-              Tarcze
+              Tarcze*
             </h2>
 
             <div class="flex flex-wrap gap-8">
@@ -291,6 +291,7 @@ const validateInput = (key, index = null, max = 10) => {
                 <IconPlus class="size-5" />
               </PrimaryButton>
             </div>
+            <InputError :message="form.errors['targets']" />
           </div>
 
           <Modal

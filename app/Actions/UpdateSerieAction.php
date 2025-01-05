@@ -15,14 +15,14 @@ class UpdateSerieAction
 {
     public function execute(Serie $serie, SerieData $data): Model
     {
-        if($data->coverImage) {
+        if ($data->coverImage) {
             $storedPath = $data->coverImage->store('public/series');
             $publicPath = str_replace('public/', '/storage/', $storedPath);
         }
 
         $serie->update([
             "title" => $data->title,
-            "user_id" => $data->user_id,
+            "user_id" => $data->userId,
             "date_time" => $data->dateTime,
             "type" => $data->type,
             "place" => $data->place,
@@ -31,7 +31,7 @@ class UpdateSerieAction
             "note" => $data->note,
         ]);
 
-       $this->updateTargets($serie, $data);
+        $this->updateTargets($serie, $data);
 
         return $serie;
     }

@@ -23,7 +23,8 @@ class SerieData implements Arrayable
         public ?string $note,
         public int $userId,
         public ?Collection $targets = null,
-    ) {}
+    ) {
+    }
 
     public function toArray(): array
     {

@@ -15,7 +15,8 @@ class TargetData implements Arrayable
         public int $pointsMax,
         public int $centerHits,
         public ?UploadedFile $image = null
-    ) {}
+    ) {
+    }
 
     public function toArray(): array
     {

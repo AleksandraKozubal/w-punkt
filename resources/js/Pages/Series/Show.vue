@@ -1,12 +1,23 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import { Head, router } from '@inertiajs/vue3'
-import { IconDotsVertical, IconTrophy, IconViewfinder, IconMapPin, IconCalendarTime, IconClipboard } from '@tabler/icons-vue'
+import { IconDotsVertical, IconTrophy, IconViewfinder, IconMapPin, IconCalendarTime, IconClipboard, IconTarget } from '@tabler/icons-vue'
 import DropdownLink from '@/Components/DropdownLink.vue'
 import Dropdown from '@/Components/Dropdown.vue'
 import { useToast } from 'vue-toastification'
+import { ref } from 'vue'
+import UploadFile from '@/Components/Forms/UploadFile.vue'
+import PrimaryButton from '@/Components/Forms/PrimaryButton.vue'
+import SecondaryButton from '@/Components/Forms/SecondaryButton.vue'
+import Select from '@/Components/Forms/Select.vue'
+import TextInput from '@/Components/Forms/TextInput.vue'
+import Modal from '@/Components/Modal.vue'
+import InputLabel from '@/Components/Forms/InputLabel.vue'
 
 const toast = useToast()
+const openTargetModal = ref(false)
+const shownTarget = ref()
+
 
 const props = defineProps({
   serie: {
@@ -24,6 +35,11 @@ const deleteSerie = (id) => {
       toast.error('Nie udało się usunąć serii.')
     },
   })
+}
+
+const showTargetDetails = (target) => {
+  openTargetModal.value = true
+  shownTarget.value = props.serie.data.targets[target]
 }
 </script>
 
@@ -107,26 +123,93 @@ const deleteSerie = (id) => {
                   aria-hidden="true"
                 />
               </div>
-              <article class="relative isolate flex overflow-hidden flex-col justify-end rounded-2xl bg-gray-900 size-52 xl:size-44 ml-5 mt-4">
-                <img :src="target.image"
-                     alt="zdjęcie tarczy"
-                     class="absolute inset-0 -z-10 size-52 xl:size-44 object-cover"
-                >
+              <a class="relative block cursor-pointer" @click="showTargetDetails(index)">
+                <article class="relative isolate flex overflow-hidden flex-col justify-end rounded-2xl bg-beige size-52 xl:size-44 ml-5 mt-4">
+                  <img v-if="target.image"
+                       :src="target.image"
+                       alt="zdjęcie tarczy"
+                       class="absolute inset-0 -z-10 size-52 xl:size-44 object-cover"
+                  >
+                  <div v-else class="absolute inset-0 -z-10 size-52 xl:size-44 object-cover top-1/4">
+                    <IconTarget class="size-24 text-black mx-auto" />
+                  </div>
 
-                <div class="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
+                  <div class="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-800/10" />
 
-                <h3 class="absolute top-0 right-0 mt-3 mr-3 text-sm font-semibold text-white bg-black/60 px-2 py-1 rounded-lg">
-                  {{ target.pointsEarned + " / " + target.pointsMax }}
-                </h3>
-                <h3 class="flex gap-1 absolute top-0 right-0 mt-12 mr-3 text-sm font-semibold text-white bg-black/60 px-2 py-1 rounded-lg">
-                  {{ target.centerHits }}
-                  <IconViewfinder class="size-5" />
-                </h3>
-              </article>
+                  <h3 class="absolute top-0 right-0 mt-3 mr-3 text-sm font-semibold text-white bg-black/60 px-2 py-1 rounded-lg">
+                    {{ target.pointsEarned + " / " + target.pointsMax }}
+                  </h3>
+                  <h3 class="flex gap-1 absolute top-0 right-0 mt-12 mr-3 text-sm font-semibold text-white bg-black/60 px-2 py-1 rounded-lg">
+                    {{ target.centerHits }}
+                    <IconViewfinder class="size-5" />
+                  </h3>
+                </article>
+              </a>
             </div>
           </div>
         </div>
       </div>
+      <Modal
+        :show="openTargetModal"
+        @close="openTargetModal = false"
+      >
+        <div class="p-6">
+          <h2 class="text-lg font-medium text-gray-900">
+            Szczegóły tarczy
+          </h2>
+
+          <!--          <p class="mt-1 text-sm text-gray-600">-->
+          <!--            Podaj informacje takie jak zdobyte punkty, centralne dziesiątki i zdjęcie tarczy.-->
+          <!--          </p>-->
+
+          <div class="mt-6 space-y-6">
+            <div class="flex flex-wrap justify-center gap-6">
+              <div
+                v-for="(point, index) in shownTarget.points"
+                :key="index"
+                class="flex flex-col items-center px-1"
+              >
+                <InputLabel :for="'point-' + index" class="font-medium">{{ index + 1 }}.</InputLabel>
+                <div class="border border-gray-300 rounded px-2 py-1">
+                  {{ shownTarget.points[index] }}
+                </div>
+              </div>
+            </div>
+            <div class="space-y-6">
+              <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <div class="flex gap-2 items-center">
+                  <InputLabel for="pointsSum" value="Suma punktów" />
+                  <div class="border border-gray-300 rounded-md px-2 py-1 size-fit">
+                    {{ shownTarget.pointsEarned }}
+                  </div>
+                </div>
+                <div class="flex gap-2 items-center">
+                  <InputLabel for="pointsMax" value="Punkty maksymalne" />
+                  <div class="border border-gray-300 rounded-md px-2 py-1 size-fit">
+                    {{ shownTarget.pointsMax }}
+                  </div>
+                </div>
+
+                <div class="flex gap-2 items-center">
+                  <InputLabel for="central" value="Centralne dziesiątki" />
+                  <div class="border border-gray-300 rounded-md px-2 py-1 size-fit">{{ shownTarget.centerHits }}</div>
+                </div>
+              </div>
+              <div v-if="shownTarget.image" class="flex flex-col items-center">
+                <InputLabel for="targetImg" value="Zdjęcie tarczy" />
+                <img :src="shownTarget.image"
+                     alt="zdjęcie tarczy"
+                     class="mt-2 max-w-44 rounded-lg"
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 flex justify-end gap-2">
+            <PrimaryButton @click="openTargetModal = false">Zamknij</PrimaryButton>
+          </div>
+        </div>
+      </Modal>
     </div>
   </AuthenticatedLayout>
 </template>

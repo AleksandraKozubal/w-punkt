@@ -15,20 +15,19 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get("/dashboard", DashboardController::class)->name("dashboard");
-
-Route::get("/series", [SeriesController::class, 'index'])->name("series.index");
-Route::get("/series/create", [SeriesController::class, 'create'])->name("series.create");
-Route::get("/series/{serie}/edit", [SeriesController::class, 'edit'])->name("series.edit");
-Route::get("/series/{serie}", [SeriesController::class, 'show'])->name("series.show");
-Route::post("/series", [SeriesController::class, 'store'])->name("series.store");
-Route::patch("/series/{serie}", [SeriesController::class, 'update'])->name("series.update");
-Route::delete("/series/{serie}", [SeriesController::class, 'destroy'])->name("series.destroy");
-
-Route::get("/stats", StatsController::class)->name("stats");
-Route::get("/tips", TipsController::class)->name("tips");
-
 Route::middleware('auth')->group(function () {
+    Route::get("/dashboard", DashboardController::class)->name("dashboard");
+
+    Route::get("/series", [SeriesController::class, 'index'])->name("series.index");
+    Route::get("/series/create", [SeriesController::class, 'create'])->name("series.create");
+    Route::get("/series/{serie}/edit", [SeriesController::class, 'edit'])->name("series.edit");
+    Route::post("/series/{serie}/update", [SeriesController::class, 'update'])->name("series.update");
+    Route::get("/series/{serie}", [SeriesController::class, 'show'])->name("series.show");
+    Route::post("/series", [SeriesController::class, 'store'])->name("series.store");
+    Route::delete("/series/{serie}", [SeriesController::class, 'destroy'])->name("series.destroy");
+
+    Route::get("/stats", StatsController::class)->name("stats");
+    Route::get("/tips", TipsController::class)->name("tips");
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
